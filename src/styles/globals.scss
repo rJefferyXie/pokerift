@@ -1,0 +1,35 @@
+@import './constants.scss';
+
+* {
+  box-sizing: border-box;
+  font-family: 'Verdana', sans-serif;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  color: $zinc-50;
+  text-shadow: 1px 1px 1px rgba($zinc-800, 0.9);
+}
+
+.button {
+  width: 100%;
+  border-radius: 6px !important;
+  padding: 8px !important;
+  margin: 4px !important;
+}
+
+.button:hover, .button:focus, .button:active {
+  filter: brightness(107%);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-c {
+  display: flex;
+  flex-direction: column;
+}
