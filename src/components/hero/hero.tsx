@@ -92,7 +92,7 @@ const Hero = () => {
         layout="fill"
         src={"images/wallpapers/hero.png"}
         alt={"A picture of Celebi."}>
-        </ExportedImage>
+      </ExportedImage>
 
       <div className={styles.mainRow}>
         <div className={styles.leftColumn}>
