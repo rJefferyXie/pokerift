@@ -7,7 +7,7 @@ import fadeLeft from '../../../animations/fade-left';
 import fadeRight from '../../../animations/fade-right';
 
 // Interface
-import { HeroTipProps } from '../../../interfaces/hero-tip';
+import HeroTipProps from '../../../props/hero-tip';
 
 const HeroTip = (props: React.PropsWithChildren<HeroTipProps>) => {
   const { content, order } = props;
