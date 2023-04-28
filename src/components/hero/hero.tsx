@@ -4,8 +4,13 @@ import styles from './hero.module.scss';
 import { useEffect, useState } from 'react';
 import HeroTip from '../ui-general/hero-tip/hero-tip';
 
+// Animations
+import { motion, AnimatePresence } from 'framer-motion';
+import fadeDown from '../../animations/fade-down';
+
+import getPokedex from '../../scripts/generatePokedex';
+
 import {
-  Card,
   Button
 } from '@mui/material';
 
@@ -28,11 +33,12 @@ import {
 } from 'firebase/auth';
 
 const Hero = () => {
+  // registering or logging in
+  const [registering, setRegistering] = useState(true);
+
   // sign up state
-  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
 
   // log in state
   const [loginEmail, setLoginEmail] = useState("");
@@ -41,6 +47,10 @@ const Hero = () => {
   // auth providers
   const GoogleProvider = new GoogleAuthProvider();
   const FacebookProvider = new FacebookAuthProvider();
+
+  useEffect(() => {
+    getPokedex();
+  })
 
   const loginWithEmail = () => {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
@@ -106,40 +116,121 @@ const Hero = () => {
         </div>
 
         <div className={styles.rightColumn}>
-          <h2 className={styles.heroHeader}>Log In</h2>
-          <div className={styles.signUpLogin}>
-            <label>Email</label>
-            <input type="email" 
-              className={styles.accountInput} 
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginEmail(event.target.value)} 
-              placeholder="Email">
-            </input>
-            <label>Password</label>
-            <input 
-              type="password" 
-              className={styles.accountInput} 
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginPassword(event.target.value)} 
-              placeholder="Password"
-            ></input>
-            <p style={{margin: "4px 0px"}}>Need an account? <span className={styles.signUpLoginText}>Sign Up</span></p>
-            <Button variant="contained" className={`${styles.email} button`} onClick={() => loginWithEmail()}>
-              <MailIcon></MailIcon>
-              <p className={styles.loginText}>Log In</p>
-            </Button>
-          </div>
-          <div className={styles.buttons}>
-            <p className={styles.orText}>or</p>
-            <div className={styles.row}>
-              <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithGoogle()}>
-                <GoogleIcon></GoogleIcon>
-                <p className={styles.loginText}>Continue with Google</p>
-              </Button>
-              <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithFacebook()}>
-                <FacebookIcon></FacebookIcon>
-                <p className={styles.loginText}>Continue with Facebook</p>
-              </Button>
-            </div>
-          </div>
+          <AnimatePresence mode="wait">
+            {registering ?
+              <motion.div 
+                className={styles.signUpLogin}
+                key="signUpModal" 
+                initial="hidden" 
+                animate="visible" 
+                exit="exit"
+                variants={fadeDown}>
+                
+                <h2 className={styles.heroHeader}>Create Account</h2>
+
+                <label>Email</label>
+                <input type="email" 
+                  className={styles.accountInput} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} 
+                  placeholder="Email">
+                </input>
+
+                <label>Password</label>
+                <input 
+                  type="password" 
+                  className={styles.accountInput} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)} 
+                  placeholder="Password">
+                </input>
+
+                <p className={styles.signUpLoginTextButton}>
+                  Already have an account? 
+                  <span 
+                    className={styles.signUpLoginText} 
+                    tabIndex={0} 
+                    onClick={(_: React.MouseEvent<HTMLSpanElement>) => setRegistering(false)}
+                    >
+                    Click Here To Log In
+                  </span>
+                </p>
+
+                <Button variant="contained" className={`${styles.email} button`} onClick={() => loginWithEmail()}>
+                  <MailIcon></MailIcon>
+                  <p className={styles.loginText}>Create Account With Email</p>
+                </Button>
+
+                <div className={styles.buttons}>
+                  <p className={styles.orText}>or</p>
+                  <div className={styles.row}>
+                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithGoogle()}>
+                      <GoogleIcon></GoogleIcon>
+                      <p className={styles.loginText}>Continue with Google</p>
+                    </Button>
+                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithFacebook()}>
+                      <FacebookIcon></FacebookIcon>
+                      <p className={styles.loginText}>Continue with Facebook</p>
+                    </Button>
+                  </div>
+                </div>
+              </motion.div> 
+              :
+              <motion.div 
+                className={styles.signUpLogin}
+                key="loginModal" 
+                initial="hidden" 
+                animate="visible"
+                exit="exit" 
+                variants={fadeDown}>
+
+                <h2 className={styles.heroHeader}>Log In</h2>
+
+                <label>Email</label>
+                <input type="email" 
+                  className={styles.accountInput} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginEmail(event.target.value)} 
+                  placeholder="Email">
+                </input>
+                
+                <label>Password</label>
+                <input 
+                  type="password" 
+                  className={styles.accountInput} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginPassword(event.target.value)} 
+                  placeholder="Password"
+                ></input>
+
+                <p className={styles.signUpLoginTextButton}>
+                  Need an account? 
+                  <span 
+                    className={styles.signUpLoginText} 
+                    tabIndex={0} 
+                    onClick={(_: React.MouseEvent<HTMLSpanElement>) => setRegistering(true)}
+                    >
+                    Click Here To Sign Up
+                  </span>
+                </p>              
+
+                <Button variant="contained" className={`${styles.email} button`} onClick={() => loginWithEmail()}>
+                  <MailIcon></MailIcon>
+                  <p className={styles.loginText}>Log In With Email</p>
+                </Button>
+
+                <div className={styles.buttons}>
+                  <p className={styles.orText}>or</p>
+                  <div className={styles.row}>
+                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithGoogle()}>
+                      <GoogleIcon></GoogleIcon>
+                      <p className={styles.loginText}>Continue with Google</p>
+                    </Button>
+                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithFacebook()}>
+                      <FacebookIcon></FacebookIcon>
+                      <p className={styles.loginText}>Continue with Facebook</p>
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>  
+            }
+          </AnimatePresence>
         </div>
       </div>
     </div>
