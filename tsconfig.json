@@ -18,6 +18,6 @@
       "@/components/*": ["./src/components/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/types.js", "src/store/store.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "store/types.js", "src/store/store.js", "src/scripts/generatePokedex.js"],
   "exclude": ["node_modules"]
 }
