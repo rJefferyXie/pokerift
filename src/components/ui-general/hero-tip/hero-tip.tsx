@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import fadeLeft from '../../../animations/fade-left';
 import fadeRight from '../../../animations/fade-right';
 
-// Interface
+// Props
 import HeroTipProps from '../../../props/hero-tip';
 
 const HeroTip = (props: React.PropsWithChildren<HeroTipProps>) => {
