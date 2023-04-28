@@ -116,7 +116,7 @@ const Hero = () => {
         </div>
 
         <div className={styles.rightColumn}>
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false} mode="wait">
             {registering ?
               <motion.div 
                 className={styles.signUpLogin}
