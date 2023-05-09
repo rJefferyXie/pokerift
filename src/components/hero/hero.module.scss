@@ -12,7 +12,6 @@
 }
 
 .heroWallpaper {
-  z-index: 5;
   filter: brightness(75%);
 }
 
@@ -31,7 +30,7 @@
   border-radius: 8px;
   background-color: rgba($slate-900, 0.7);
   box-shadow: 0px 0px 8px rgba($slate-50, 0.5);
-  z-index: 6;
+  z-index: 2;
   overflow: hidden;
 }
 
@@ -60,7 +59,7 @@
 .signUpLogin {
   display: flex;
   flex-direction: column;
-  width: 95%;
+  width: 90%;
   height: 100%;
   margin: 8px auto;
 }
@@ -98,8 +97,14 @@
   text-decoration: underline;
 }
 
-.email {
-  width: fit-content;
+.registerEmail {
+  width: min(290px, 100%);  
+  margin: auto !important;
+  background-color: rgba(6, 114, 177, 0.9) !important;
+}
+
+.loginEmail {
+  width: min(200px, 100%);  
   margin: auto !important;
   background-color: rgba(6, 114, 177, 0.9) !important;
 }
@@ -117,7 +122,8 @@
 }
 
 .loginText {
-  margin: auto auto auto 4px;
+  width: 100%;
+  text-align: center !important;
 }
 
 .orText {
@@ -133,16 +139,16 @@
   content: "";
   border: 1px solid rgb(255, 255, 255);
   position: absolute;
-  width: 44%;
-  top: 0.5rem;
-  left: 1.5rem;
+  width: 47%;
+  top: 0.75rem;
+  left: 0.25rem;
 }
 
 .orText:after {
   content: "";
   border: 1px solid rgb(255, 255, 255);
-  width: 44%;
+  width: 47%;
   position: absolute;
-  top: 0.5rem;
-  right: 1.5rem;
+  top: 0.75rem;
+  right: 0.25rem;
 }

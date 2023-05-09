@@ -1,19 +1,30 @@
-import ExportedImage from 'next-image-export-optimizer';
+// Styling
 import styles from './hero.module.scss';
 
+// React + Next
 import { useEffect, useState } from 'react';
+import ExportedImage from 'next-image-export-optimizer';
+
+// Components
 import HeroTip from '../ui-general/hero-tip/hero-tip';
+import Alert from '../ui-general/alert/alert';
 
 // Animations
 import { motion, AnimatePresence } from 'framer-motion';
 import fadeDown from '../../animations/fade-down';
 
+// Constants
+import { Severity } from '../../constants/severity';
+
+// Scripts
 import getPokedex from '../../scripts/generatePokedex';
 
+// MUI
 import {
   Button
 } from '@mui/material';
 
+// MUI Icons
 import FacebookIcon from '@mui/icons-material/Facebook'
 import GoogleIcon from '@mui/icons-material/Google'
 import MailIcon from '@mui/icons-material/Mail'
@@ -23,22 +34,28 @@ import {
   auth
 } from '../../firebase/config';
 
+// Authentication
 import { 
   GoogleAuthProvider, 
   FacebookAuthProvider, 
   signInWithPopup, 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
-  updateProfile 
+  AuthProvider
 } from 'firebase/auth';
 
 const Hero = () => {
+  // show alert messages
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertContent, setAlertContent] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('');
+
   // registering or logging in
   const [registering, setRegistering] = useState(true);
 
   // sign up state
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
 
   // log in state
   const [loginEmail, setLoginEmail] = useState("");
@@ -50,38 +67,55 @@ const Hero = () => {
 
   useEffect(() => {
     getPokedex();
-  })
+  }, []);
+
+  useEffect(() => {
+    if (!alertContent) return;
+
+    // Wait for alert content to change before showing alert
+    setShowAlert(true);
+  }, [alertContent]);
+
+  useEffect(() => {
+    if (showAlert) return;
+
+    // Reset alert content when it is closed
+    setAlertContent('');
+  }, [showAlert]);
+
+  const createWithEmail = () => {
+    createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+    .then((result) => {
+      setAlertContent("Account created successfully with " + result.user.email);
+      setAlertSeverity(Severity.SUCCESS);
+    })
+    .catch((error) => {
+      setAlertContent("Could not create account. " + error.message);
+      setAlertSeverity(Severity.ERROR);
+    });
+  }
 
   const loginWithEmail = () => {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
-    .then((userCredential) => {
-      console.log(userCredential)
+    .then((result) => {
+      setAlertContent("Successfully logged in as " + result.user.email);
+      setAlertSeverity(Severity.SUCCESS);
     })
     .catch((error) => {
-      const errorMessage = error.message;
-      console.log(errorMessage);
+      setAlertContent("Could not log in. " + error.message);
+      setAlertSeverity(Severity.ERROR);
     });
   }
 
-  const loginWithGoogle = () => {
-    signInWithPopup(auth, GoogleProvider)
+  const loginWithOther = (provider: AuthProvider) => {
+    signInWithPopup(auth, provider)
     .then((result) => {
-      console.log(result);
+      setAlertContent("Successfully logged in as " + result.user.email);
+      setAlertSeverity(Severity.SUCCESS);
     })
     .catch((error) => {
-      const errorMessage = error.message;
-      console.log(errorMessage);
-    });
-  }
-
-  const loginWithFacebook = () => {
-    signInWithPopup(auth, FacebookProvider)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((error) => {
-      const errorMessage = error.message;
-      console.log(errorMessage);
+      setAlertContent("Could not log in. " + error.message);
+      setAlertSeverity(Severity.ERROR);
     });
   }
 
@@ -93,6 +127,15 @@ const Hero = () => {
         src={"images/wallpapers/hero.png"}
         alt={"A picture of Celebi."}>
       </ExportedImage>
+
+      <Alert
+        content={alertContent}
+        severity={alertSeverity}
+        showAlert={showAlert}
+        position='bottom'
+        action={() => console.log("hi")}
+        callback={() => setShowAlert(false)}>
+      </Alert>
 
       <div className={styles.mainRow}>
         <div className={styles.leftColumn}>
@@ -131,7 +174,8 @@ const Hero = () => {
                 <label>Email</label>
                 <input type="email" 
                   className={styles.accountInput} 
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setRegisterEmail(event.target.value)} 
+                  value={registerEmail}
                   placeholder="Email">
                 </input>
 
@@ -139,7 +183,8 @@ const Hero = () => {
                 <input 
                   type="password" 
                   className={styles.accountInput} 
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)} 
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => setRegisterPassword(event.target.value)} 
+                  value={registerPassword}
                   placeholder="Password">
                 </input>
 
@@ -154,7 +199,7 @@ const Hero = () => {
                   </span>
                 </p>
 
-                <Button variant="contained" className={`${styles.email} button`} onClick={() => loginWithEmail()}>
+                <Button variant="contained" className={`${styles.registerEmail} button`} onClick={() => createWithEmail()}>
                   <MailIcon></MailIcon>
                   <p className={styles.loginText}>Create Account With Email</p>
                 </Button>
@@ -162,11 +207,11 @@ const Hero = () => {
                 <div className={styles.buttons}>
                   <p className={styles.orText}>or</p>
                   <div className={styles.row}>
-                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithGoogle()}>
+                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithOther(GoogleProvider)}>
                       <GoogleIcon></GoogleIcon>
                       <p className={styles.loginText}>Continue with Google</p>
                     </Button>
-                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithFacebook()}>
+                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithOther(FacebookProvider)}>
                       <FacebookIcon></FacebookIcon>
                       <p className={styles.loginText}>Continue with Facebook</p>
                     </Button>
@@ -188,6 +233,7 @@ const Hero = () => {
                 <input type="email" 
                   className={styles.accountInput} 
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginEmail(event.target.value)} 
+                  value={loginEmail}
                   placeholder="Email">
                 </input>
                 
@@ -196,8 +242,9 @@ const Hero = () => {
                   type="password" 
                   className={styles.accountInput} 
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => setLoginPassword(event.target.value)} 
-                  placeholder="Password"
-                ></input>
+                  value={loginPassword}
+                  placeholder="Password">
+                </input>
 
                 <p className={styles.signUpLoginTextButton}>
                   Need an account? 
@@ -210,7 +257,7 @@ const Hero = () => {
                   </span>
                 </p>              
 
-                <Button variant="contained" className={`${styles.email} button`} onClick={() => loginWithEmail()}>
+                <Button variant="contained" className={`${styles.loginEmail} button`} onClick={() => loginWithEmail()}>
                   <MailIcon></MailIcon>
                   <p className={styles.loginText}>Log In With Email</p>
                 </Button>
@@ -218,11 +265,11 @@ const Hero = () => {
                 <div className={styles.buttons}>
                   <p className={styles.orText}>or</p>
                   <div className={styles.row}>
-                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithGoogle()}>
+                    <Button variant="contained" className={`${styles.google} button`} onClick={() => loginWithOther(GoogleProvider)}>
                       <GoogleIcon></GoogleIcon>
                       <p className={styles.loginText}>Continue with Google</p>
                     </Button>
-                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithFacebook()}>
+                    <Button variant="contained" className={`${styles.facebook} button`} onClick={() => loginWithOther(FacebookProvider)}>
                       <FacebookIcon></FacebookIcon>
                       <p className={styles.loginText}>Continue with Facebook</p>
                     </Button>

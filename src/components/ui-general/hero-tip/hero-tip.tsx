@@ -21,7 +21,7 @@ const HeroTip = (props: React.PropsWithChildren<HeroTipProps>) => {
       transition={{delay: order - 1, duration: 1, type: "spring"}}
       variants={order % 2 === 0 ? fadeLeft : fadeRight}
     >
-    {content}
+      {content}
     </motion.div>
   );
 }
