@@ -1,0 +1,60 @@
+@import '../../../styles/constants.scss';
+
+.container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}
+
+.alert {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+
+  &.top {
+    top: 15%;
+  }
+
+  &.bottom {
+    top: 85%;
+  }
+
+  .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+
+    .dismiss {
+      background-color: rgba($zinc-800, 0.5);
+      margin-left: 0.5rem;
+      padding: 0.25rem;
+      cursor: pointer;
+      border-radius: 100%;
+    }
+
+    .dismiss:hover, .dismiss:active, .dismiss:focus {
+      background-color: rgba($zinc-800, 0.75);
+      transition: background-color 0.5s ease-in-out;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem auto 0;
+}
+
+.action {
+  color: $primary-light;
+  border-color: $primary-light !important;
+  margin: 0 4px;
+}
