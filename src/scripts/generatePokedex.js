@@ -9,7 +9,7 @@ const getPokedex = async (region, number) => {
   .then(async (res) => {
     const pokemonEntries = res.data.pokemon_entries;
     const pokemonAndSpeciesData = await getPokemonAndSpeciesData(pokemonEntries);
-    
+
     return pokemonAndSpeciesData;
   })
   .catch((err) => {
@@ -96,22 +96,22 @@ const cleanSpeciesData = async (speciesData) => {
 
   // No Evos
   if (!speciesData.evolves_from_species && !speciesData.evolutions.length > 0) {
-    speciesData.draw_chance = 9;
+    speciesData.draw_chance = 5;
   }
 
   // First Evo
   if (!speciesData.evolves_from_species && speciesData.evolutions.length > 0) {
-    speciesData.draw_chance = 75;
+    speciesData.draw_chance = 94;
   }
 
   // Second Evo
   if (speciesData.evolves_from_species && speciesData.evolutions.length > 0) {
-    speciesData.draw_chance = 12;
+    speciesData.draw_chance = null;
   }
 
   // Final Evo
   if (speciesData.evolves_from_species && !speciesData.evolutions.length > 0) {
-    speciesData.draw_chance = 3;
+    speciesData.draw_chance = null;
   }
 
   // Mythical / Legendary
