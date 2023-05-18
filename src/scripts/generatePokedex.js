@@ -4,12 +4,13 @@ import { unusedPokemonData, unusedSpeciesData, unusedMoveData } from './constant
 const storedMoves = {};
 const storedEvolutions = {};
 
-const getPokedex = async () => {
-  await axios.get('https://pokeapi.co/api/v2/pokedex/1/')
+const getPokedex = async (region, number) => {
+  return await axios.get(`https://pokeapi.co/api/v2/pokedex/${number}/`)
   .then(async (res) => {
-    const pokemonEntries = res.data.pokemon_entries.slice(279, 281);
+    const pokemonEntries = res.data.pokemon_entries;
     const pokemonAndSpeciesData = await getPokemonAndSpeciesData(pokemonEntries);
-    console.log(pokemonAndSpeciesData);
+    
+    return pokemonAndSpeciesData;
   })
   .catch((err) => {
     console.error(err);
@@ -23,10 +24,8 @@ const getPokemonAndSpeciesData = async (pokemonEntries) => {
     const speciesData = await axios.get(speciesURL).then((res) => res.data).then((data) => cleanSpeciesData(data));
     const pokemonData = await axios.get(pokemonURL).then((res) => res.data).then((data) => cleanPokemonData(data));
 
-    return {
-      "speciesData": speciesData,
-      "pokemonData": pokemonData
-    }}
+    return {...speciesData, ...pokemonData}
+    }
   ));
 }
 
@@ -41,7 +40,8 @@ const cleanPokemonData = async (pokemonData) => {
     'shiny': pokemonData.sprites.other['official-artwork'].front_shiny
   }
 
-  pokemonData.moves = await getMoves(pokemonData);
+  // Can't have moves for now, takes too much data. Will need to put 1-3 moves for each pokemon later.
+  // pokemonData.moves = await getMoves(pokemonData);
 
   return pokemonData;
 }
@@ -94,6 +94,31 @@ const cleanSpeciesData = async (speciesData) => {
 
   speciesData.evolutions = await getEvolutionData(speciesData);
 
+  // No Evos
+  if (!speciesData.evolves_from_species && !speciesData.evolutions.length > 0) {
+    speciesData.draw_chance = 9;
+  }
+
+  // First Evo
+  if (!speciesData.evolves_from_species && speciesData.evolutions.length > 0) {
+    speciesData.draw_chance = 75;
+  }
+
+  // Second Evo
+  if (speciesData.evolves_from_species && speciesData.evolutions.length > 0) {
+    speciesData.draw_chance = 12;
+  }
+
+  // Final Evo
+  if (speciesData.evolves_from_species && !speciesData.evolutions.length > 0) {
+    speciesData.draw_chance = 3;
+  }
+
+  // Mythical / Legendary
+  if (speciesData.is_legendary || speciesData.is_mythical) {
+    speciesData.draw_chance = 1;
+  }
+
   unusedSpeciesData.forEach(key => {
     delete speciesData[key];
   });
@@ -141,6 +166,12 @@ const getEvolutionData = async (speciesData) => {
 
 const cleanEvolutionData = (evoData, hasEvolved) => {
   const evolutionDetails = {}
+
+  if (!evoData.evolution_details.length) {
+    evolutionDetails.minLevel = 40;
+    evolutionDetails.evolvesTo = evoData.species.name;
+    return evolutionDetails;
+  }
 
   // Setting Level for Evolution
   if (!evoData.evolution_details[0].min_level) {
