@@ -1,18 +1,22 @@
+// Styles
 import '../styles/globals.scss';
-import { wrapper } from "../store/store";
-import { Provider } from "react-redux";
+
+// React + Next
 import type { AppProps } from 'next/app';
 
-const App = ({ Component, ...pageProps }: AppProps) => {
-  const { store, props } = wrapper.useWrappedStore(pageProps);
+// Redux
+import { PersistGate } from 'redux-persist/integration/react';
+import { wrapper, store, persistor } from "../store/store";
+import { Provider } from "react-redux";
 
+const App = ({ Component, ...pageProps }: AppProps) => {
   return (
-    <>
-      <Provider store={store}>
-        <Component {...pageProps} />
-      </Provider>
-    </>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Component {...pageProps}/>
+      </PersistGate>
+    </Provider>
   );
 }
 
-export default App;
+export default wrapper.withRedux(App);
