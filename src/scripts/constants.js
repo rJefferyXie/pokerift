@@ -1,3 +1,13 @@
+const regions = {
+  'kanto': 2,
+  'johto': 7,
+  'hoenn': 15,
+  'sinnoh': 6,
+  'unova': 9,
+  'kalos': 12,
+  'alola': 21
+};
+
 const unusedPokemonData = [
   'abilities',
   'base_experience',
@@ -7,6 +17,8 @@ const unusedPokemonData = [
   'held_items',
   'location_area_encounters',
   'species',
+  'order',
+  'moves' // Can't have moves for now, takes too much data. Will need to put 1-3 moves for each pokemon later.
 ];
 
 const unusedSpeciesData = [
@@ -28,7 +40,9 @@ const unusedSpeciesData = [
   'varieties',
   'flavor_text_entries',
   'genera',
-  'evolution_chain'
+  'evolution_chain',
+  'capture_rate',
+  'order'
 ];
 
 const unusedMoveData = [
@@ -49,6 +63,7 @@ const unusedMoveData = [
 ];
 
 export {
+  regions,
   unusedPokemonData,
   unusedSpeciesData,
   unusedMoveData,
