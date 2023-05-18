@@ -1,0 +1,53 @@
+@import '../../styles/constants.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.regions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0.5rem 4rem;
+}
+
+.region {
+  height: 240px;
+  width: min(calc(33% - 4rem), 420px);
+  margin: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.region:hover, .region:focus, .region:active {
+  .wallpaper {
+    filter: brightness(110%) drop-shadow(0px 0px 2rem rgb(12, 104, 141));
+  }
+}
+
+.regionName {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  color: $zinc-50;
+  text-shadow: 1px 1px 1px rgba($zinc-800, 0.9);  
+  background-color: rgba($slate-900, 0.6);
+}
+
+.wallpaper {
+  object-fit: cover;
+  height: 100%;
+  border-radius: 0.5rem;
+  filter: brightness(75%);
+  transition: filter 0.5s ease-in-out;
+}
