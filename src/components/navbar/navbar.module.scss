@@ -1,0 +1,77 @@
+@import '../../styles/constants.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+  width: min(15%, 270px);
+  z-index: 1;
+}
+
+.logo {
+  margin: 1rem auto;
+  background-image: -webkit-linear-gradient(127deg, #4ca1af, #c4e0e5);
+  background-image: linear-gradient(127deg, #4ca1af, #c4e0e5);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: initial;
+  text-shadow: none;
+  text-decoration: none;
+}
+
+.navLink {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(110, 110, 110, 0.4);
+  border-radius: 1.5rem;
+  margin: 0.5rem 0rem 0.5rem 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.5s ease-in-out;
+
+  .linkIcon {
+    margin: auto 0.25rem auto;
+  }
+
+  .linkText {
+    margin: auto auto auto 0;
+  }
+
+  .linkWrapper {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translate(-5%, -50%);
+    transition: all 0.5s ease-in-out;
+  }
+
+  &.active {
+    background-color: rgba(57, 120, 156, 0.3);
+
+    .linkIcon {
+      margin: auto 0.25rem auto auto;
+    }
+  
+    .linkText {
+      margin: auto auto auto 0;
+    }
+
+    .linkWrapper {
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.navLink:hover:not(.active), .navLink:active:not(.active), .navLink:focus:not(.active) {
+  background-color: rgba(27, 27, 27, 0.25);
+}
