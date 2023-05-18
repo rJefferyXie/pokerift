@@ -11,6 +11,14 @@
 
 body {
   color: $zinc-50;
+  background-color: #1d1d1d;
+  text-shadow: 1px 1px 1px rgba($zinc-800, 0.9);
+}
+
+button {
+  outline: none;
+  border: none;
+  color: $zinc-50;
   text-shadow: 1px 1px 1px rgba($zinc-800, 0.9);
 }
 
