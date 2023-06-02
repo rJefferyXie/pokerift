@@ -15,7 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const database = getDatabase(app);
+const db = getDatabase(app);
 const analytics = isSupported().then(yes => yes ? getAnalytics(app) : null);
 
-export { auth, database, analytics };
+export { auth, db, analytics };
