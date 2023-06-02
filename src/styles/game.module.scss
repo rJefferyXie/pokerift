@@ -27,6 +27,11 @@
 }
 
 .content {
-  width: 85vw;
+  width: calc(85vw - 1rem);
+  margin: 3rem;
+  padding: 1rem;
   overflow-y: auto;
+  border-radius: 1rem;
+  background-color: rgba(50, 50, 50, 0.25);
+  box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
 }
