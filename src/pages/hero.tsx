@@ -35,7 +35,7 @@ import getPokedex from '../scripts/generatePokedex';
 // Firebase
 import { 
   auth,
-  database as db
+  db
 } from '../firebase/config';
 
 // Database
@@ -77,11 +77,10 @@ const Hero = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      // router.push('/game');
+      router.push('/game');
     }
 
     const dbRef = ref(db);
-
     Object.keys(regions).forEach(async (region) => {
       const regionDownloaded = localStorage.getItem(region);
       if (regionDownloaded) {

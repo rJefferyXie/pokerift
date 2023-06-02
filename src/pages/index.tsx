@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 // Firebase
 import { 
-  database as db,
+  db,
   auth
 } from '../firebase/config';
 
