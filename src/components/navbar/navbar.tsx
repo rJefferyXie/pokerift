@@ -10,9 +10,16 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SettingsIcon from '@mui/icons-material/Settings';
+import NavbarProps from '../../props/navbar';
 
-const Navbar = () => {
+const Navbar = (props: React.PropsWithChildren<NavbarProps>) => {
   const [selected, setSelected] = useState('Home');
+  const { selectPage } = props;
+
+  const select = (tab: string) => {
+    setSelected(tab);
+    selectPage(tab);
+  }
 
   return (
     <div className={styles.container}>
@@ -20,7 +27,7 @@ const Navbar = () => {
 
       <button 
         className={`${styles.navLink} ${selected === 'Home' ? styles.active : ''}`}
-        onClick={() => setSelected('Home')}
+        onClick={() => select('Home')}
       >
         <div className={styles.linkWrapper}>
           <HomeIcon className={styles.linkIcon}></HomeIcon>
@@ -30,7 +37,7 @@ const Navbar = () => {
 
       <button 
         className={`${styles.navLink} ${selected === 'Inventory' ? styles.active : ''}`}
-        onClick={() => setSelected('Inventory')}
+        onClick={() => select('Inventory')}
       >
         <div className={styles.linkWrapper}>
           <ShoppingBasketIcon className={styles.linkIcon}></ShoppingBasketIcon>
@@ -40,7 +47,7 @@ const Navbar = () => {
 
       <button 
         className={`${styles.navLink} ${selected === 'Pokeshop' ? styles.active : ''}`}
-        onClick={() => setSelected('Pokeshop')}
+        onClick={() => select('Pokeshop')}
       >
         <div className={styles.linkWrapper}>
           <ShoppingCartIcon className={styles.linkIcon}></ShoppingCartIcon>
@@ -50,7 +57,7 @@ const Navbar = () => {
 
       <button 
         className={`${styles.navLink} ${selected === 'Statistics' ? styles.active : ''}`}
-        onClick={() => setSelected('Statistics')}
+        onClick={() => select('Statistics')}
       >
         <div className={styles.linkWrapper}>
           <AutoGraphIcon className={styles.linkIcon}></AutoGraphIcon>
@@ -60,7 +67,7 @@ const Navbar = () => {
 
       <button 
         className={`${styles.navLink} ${selected === 'Settings' ? styles.active : ''}`}
-        onClick={() => setSelected('Settings')}
+        onClick={() => select('Settings')}
       >
         <div className={styles.linkWrapper}>
           <SettingsIcon className={styles.linkIcon}></SettingsIcon>
