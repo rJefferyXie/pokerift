@@ -1,0 +1,66 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  width: 75%;
+}
+
+.cards:before {
+  content: "";
+  border: 1px solid rgb(70, 70, 70);
+  position: absolute;
+  height: calc(100% - 1rem);
+  top: 0.5rem;
+  right: -1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  width: 200px;
+  height: 240px;
+  border-radius: 1rem;
+  margin: 8px;
+  background-color: rgb(50, 50, 50);
+  box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
+  text-transform: capitalize;
+  transition: all 0.5s;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.card:hover, .card:active, .card:focus {
+  transform: translateY(-5px);
+}
+
+.image {
+  margin: auto auto 0.5rem;
+}
+
+.types {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.type {
+  width: fit-content;
+  margin: auto 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+}
+
+.name {
+  margin: 0.5rem auto auto;
+}
+
+.decks {
+  margin-left: 2rem;
+}
