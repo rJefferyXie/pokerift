@@ -17,7 +17,7 @@ const Home = () => {
       <div className={styles.buttonContainer}>
         <button className={styles.playButton} tabIndex={0}>
           <h2 className={styles.buttonText}>
-            Single Player
+            Single Player (coming soon)
           </h2>
 
           <ExportedImage

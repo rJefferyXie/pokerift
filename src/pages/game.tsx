@@ -54,7 +54,7 @@ const Game = () => {
         const deck = Object.values(JSON.parse(compressedDeck));
         console.log(deck)
         const f = chooseCardsByRarity(deck, 5);
-        set(ref(db, 'users/' + auth.currentUser.uid), {
+        set(ref(db, 'users/' + auth.currentUser?.uid), {
           cards: f
         })
         .then(() => {

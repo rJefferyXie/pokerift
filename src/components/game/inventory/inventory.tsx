@@ -10,7 +10,21 @@ import { ref, onValue } from 'firebase/database';
 import { auth, db } from '../../../firebase/config';
 
 // Constants
-import { TypeColorSchemes } from '../../../constants/pokemon'
+import { TypeColorSchemes } from '../../../constants/pokemon';
+
+interface PokemonTypes {
+  type: {
+    [key: string]: string;
+  }
+}
+
+interface Pokemon {
+  name: string,
+  types: PokemonTypes[]
+  sprites: {
+    [key: string]: string
+  }
+}
 
 const Inventory = () => {
   const [cards, setCards] = useState([]);
@@ -30,7 +44,7 @@ const Inventory = () => {
   return (
     <div className={styles.container}>
       <div className={styles.cards}>
-        {cards.map((card, idx) => {
+        {cards.map((card: Pokemon, idx) => {
           return (
             <div className={styles.card} key={idx}>
               <ExportedImage 
