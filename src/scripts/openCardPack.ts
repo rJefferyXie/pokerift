@@ -1,4 +1,7 @@
-const chooseCardsByRarity = (deck, numCards) => {
+// Interfaces
+import Pokemon from "../interfaces/Pokemon";
+
+const chooseCardsByRarity = (deck: Pokemon[], numCards: number) => {
   const pool = deck.flatMap((card) => {
     const weight = card.draw_chance;
     return Array(weight).fill(card);

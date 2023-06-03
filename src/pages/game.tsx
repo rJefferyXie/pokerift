@@ -29,6 +29,7 @@ import Inventory from '@/components/game/inventory/inventory';
 import Shop from '@/components/game/shop/shop';
 import Statistics from '@/components/game/statistics/statistics';
 import Settings from '@/components/game/settings/settings';
+import Pokemon from '../interfaces/Pokemon';
 
 
 const Game = () => {
@@ -51,7 +52,7 @@ const Game = () => {
         
       const compressedDeck = localStorage.getItem('kanto');
       if (compressedDeck) {
-        const deck = Object.values(JSON.parse(compressedDeck));
+        const deck: Pokemon[] = Object.values(JSON.parse(compressedDeck));
         console.log(deck)
         const f = chooseCardsByRarity(deck, 5);
         set(ref(db, 'users/' + auth.currentUser?.uid), {

@@ -12,19 +12,8 @@ import { auth, db } from '../../../firebase/config';
 // Constants
 import { TypeColorSchemes } from '../../../constants/pokemon';
 
-interface PokemonTypes {
-  type: {
-    [key: string]: string;
-  }
-}
-
-interface Pokemon {
-  name: string,
-  types: PokemonTypes[]
-  sprites: {
-    [key: string]: string
-  }
-}
+// Interfaces
+import Pokemon from '../../../interfaces/Pokemon';
 
 const Inventory = () => {
   const [cards, setCards] = useState([]);
