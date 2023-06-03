@@ -12,11 +12,11 @@
     ],
     "headers": [
       {
-        "source": "**",
+        "source": "/**",
         "headers": [
           {
             "key": "Access-Control-Allow-Origin",
-            "value": "*"
+            "value": "*https://pokerift.web.app"
           }
         ]
       }
