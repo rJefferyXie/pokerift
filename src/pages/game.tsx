@@ -38,6 +38,7 @@ const Game = () => {
 
   useEffect(() => {
     console.log(auth.currentUser)
+    console.log(db)
     if (!auth.currentUser) {
       router.push('/hero');
       return;

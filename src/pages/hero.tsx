@@ -76,6 +76,9 @@ const Hero = () => {
   const FacebookProvider = new FacebookAuthProvider();
 
   useEffect(() => {
+    console.log(db)
+    console.log(auth)
+
     if (auth.currentUser) {
       router.push('/game');
     }
