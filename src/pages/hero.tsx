@@ -125,6 +125,7 @@ const Hero = () => {
   const loginWithEmail = () => {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
     .then((result) => {
+      console.log(result)
       router.push('/game');
     })
     .catch((error) => {
@@ -136,6 +137,7 @@ const Hero = () => {
   const loginWithOther = (provider: AuthProvider) => {
     signInWithPopup(auth, provider)
     .then((result) => {
+      console.log(result)
       router.push('/game');
     })
     .catch((error) => {

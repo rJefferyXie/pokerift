@@ -37,6 +37,7 @@ const Game = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log(auth.currentUser)
     if (!auth.currentUser) {
       router.push('/hero');
       return;
