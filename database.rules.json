@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "$other": {
+      ".read": true,
+      ".write": true
+    },
+    "cors": {
+      "origin": ["https://pokerift.web.app"]
+    }
+  }
+}
