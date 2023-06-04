@@ -76,14 +76,14 @@ const Hero = () => {
   const FacebookProvider = new FacebookAuthProvider();
 
   useEffect(() => {
-    console.log(db)
-    console.log(auth)
+    console.log("auth", auth.currentUser)
 
     if (auth.currentUser) {
       router.push('/game');
     }
 
     const dbRef = ref(db);
+    console.log("ref", dbRef)
     Object.keys(regions).forEach(async (region) => {
       const regionDownloaded = localStorage.getItem(region);
       if (regionDownloaded) {

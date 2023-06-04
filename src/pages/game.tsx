@@ -37,14 +37,14 @@ const Game = () => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log(auth.currentUser)
-    console.log(db)
+    console.log("auth", auth.currentUser)
     if (!auth.currentUser) {
       router.push('/hero');
       return;
     }
 
     const userCardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
+    console.log("ref", userCardRef)
     onValue(userCardRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
