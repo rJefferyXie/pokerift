@@ -4,13 +4,13 @@ import { getDatabase } from "firebase/database";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+    apiKey: "AIzaSyCFo1JZc6ZrN2LpyUvsmZtTV_PTDzNYdCw",
+    authDomain: "pokerift-6eebf.firebaseapp.com",
+    projectId: "pokerift-6eebf",
+    storageBucket: "pokerift-6eebf.appspot.com",
+    messagingSenderId: "109543560669",
+    appId: "1:109543560669:web:7a7ccdbfd3e240ae8ed234",
+    measurementId: "G-Y8ZGLP2RMQ",
 };
 
 const app = initializeApp(firebaseConfig);
