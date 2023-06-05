@@ -72,7 +72,9 @@ const Inventory = () => {
 
                 <div className={styles.level}>
                   {card.level && <p className={styles.baby} style={{width: card.level / card.evolutions[0].minLevel * 100}}>{card.level + "/" + card.evolutions[0].minLevel}</p>}
-                  {!card.evolutions?.length && <p className={styles.max}>MAX</p>}
+                  {(!card.evolutions?.length && !card.is_legendary && !card.is_mythical) && <p className={styles.max}>MAX</p>}
+                  {card.is_mythical && <p className={styles.mythical}>MYTHICAL</p>}
+                  {card.is_legendary && <p className={styles.legendary}>LEGENDARY</p>}
                 </div>
 
                 <div className={styles.types}>
