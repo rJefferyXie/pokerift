@@ -45,7 +45,12 @@ const generateStartingCards = (deck: Pokemon[]) => {
     const randomIndex = Math.floor(Math.random() * pool.length);
     const chosenCard = pool.splice(randomIndex, 1)[0];
 
-    if (chosenCard.evolutions.length) {
+    // Don't give players any evolved pokemon to start with.
+    if (chosenCard.evolves_from_species) {
+      continue;
+    }
+
+    if (chosenCard.evolutions?.length) {
       chosenCard.level = 1;
     }
 
@@ -56,8 +61,6 @@ const generateStartingCards = (deck: Pokemon[]) => {
       chosenCards.push(chosenCard);
     }
   }
-
-  console.log(chosenCards)
 
   return chosenCards;
 }
@@ -70,7 +73,7 @@ const addRandomCard = (deck: Pokemon[]) => {
 
   const randomIndex = Math.floor(Math.random() * pool.length);
   const chosenCard = pool.splice(randomIndex, 1)[0];
-  if (chosenCard.evolutions.length) {
+  if (chosenCard.evolutions?.length) {
     chosenCard.level = 1;
   }
   return chosenCard;

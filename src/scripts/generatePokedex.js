@@ -1,20 +1,45 @@
 import axios from 'axios';
 import { unusedPokemonData, unusedSpeciesData, unusedMoveData } from './constants';
 
+import { regions } from './constants';
+
 const storedMoves = {};
+const storedPokemon = {};
 const storedEvolutions = {};
 
-const getPokedex = async (region, number) => {
-  return await axios.get(`https://pokeapi.co/api/v2/pokedex/${number}/`)
-  .then(async (res) => {
-    const pokemonEntries = res.data.pokemon_entries;
-    const pokemonAndSpeciesData = await getPokemonAndSpeciesData(pokemonEntries);
+const getPokedex = async () => {
+  const allRegions = await Promise.all(Object.keys(regions).map(async (region) => {
+    return await axios.get(`https://pokeapi.co/api/v2/pokedex/${regions[region]}/`)
+    .then(async (res) => {
+      const pokemonEntries = res.data.pokemon_entries;
+      const pokemonAndSpeciesData = await getPokemonAndSpeciesData(pokemonEntries);
+  
+      return {
+        region: region,
+        data: pokemonAndSpeciesData
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  }));
 
-    return pokemonAndSpeciesData;
-  })
-  .catch((err) => {
-    console.error(err);
+  allRegions.map((region) => {
+    region.data.map((pokemon) => {
+      if (storedPokemon[pokemon.name]) {
+        if (!storedPokemon[pokemon.name].regions.includes(region.region)) {
+          storedPokemon[pokemon.name].regions = [...storedPokemon[pokemon.name].regions, region.region];
+        }
+
+        return;
+      } 
+
+      storedPokemon[pokemon.name] = pokemon;
+      storedPokemon[pokemon.name].regions = [region.region];
+    })
   });
+
+  return storedPokemon;
 }
 
 const getPokemonAndSpeciesData = async (pokemonEntries) => {
@@ -130,6 +155,10 @@ const getEvolutionData = async (speciesData) => {
   const evoURL = speciesData.evolution_chain.url;
   if (!storedEvolutions[evoURL]) {
     storedEvolutions[evoURL] = await axios.get(evoURL).then(res => res.data);
+  }
+
+  if (speciesData.name === 'manaphy') {
+    return [];
   }
 
   let evolutions = [];

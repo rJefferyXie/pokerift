@@ -31,7 +31,6 @@ import Statistics from '@/components/game/statistics/statistics';
 import Settings from '@/components/game/settings/settings';
 import Pokemon from '../interfaces/Pokemon';
 
-
 const Game = () => {
   const [selected, setSelected] = useState('Home');
   const router = useRouter();
@@ -50,20 +49,15 @@ const Game = () => {
         return;
       }
 
-      const kantoDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('kanto') || ''));
-      const johtoDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('johto') || ''));
-      const hoennDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('hoenn') || ''));
-      const sinnohDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('sinnoh') || ''));
-      const unovaDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('unova') || ''));
-      const kalosDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('kalos') || ''));
-      const alolaDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('alola') || ''));
-      const fullDeck = new Set([...kantoDeck, ...johtoDeck, ...hoennDeck, ...sinnohDeck, ...unovaDeck, ...kalosDeck, ...alolaDeck]);
-      if (fullDeck) {
-        const deck: Pokemon[] = Array.from(fullDeck);
+      const pokedex = JSON.parse(localStorage.getItem('pokedex') || '');
+      if (pokedex) {
+        const deck: Pokemon[] = Object.values(pokedex);
         const startingCards = generateStartingCards(deck);
-        set(ref(db, 'users/' + auth.currentUser?.uid), {
-          cards: startingCards
-        })
+        set(ref(db, 'users/' + auth.currentUser?.uid + '/cards'), startingCards);
+
+        startingCards.map((card: Pokemon) => {
+          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/' + card.name), card.name);
+        });
       }
     });
   }, [router]);
