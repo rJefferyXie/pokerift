@@ -12,6 +12,9 @@ import { Pagination } from '@mui/material';
 import { ref, update, onValue, push, child } from 'firebase/database';
 import { auth, db } from '../../../firebase/config';
 
+// Components
+import PokemonView from '@/components/pokemon-view/pokemon-view';
+
 // Constants
 import { TypeColorSchemes } from '../../../constants/pokemon';
 
@@ -23,6 +26,7 @@ import { addRandomCard } from '../../../scripts/generateCards';
 const Inventory = () => {
   const [cards, setCards] = useState<Pokemon[]>([]);
   const [decks, setDecks] = useState<Deck[]>([]);
+  const [viewing, setViewing] = useState<Pokemon>();
   const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
@@ -46,6 +50,10 @@ const Inventory = () => {
     })
   }, []);
 
+  const viewCard = (card: Pokemon) => {
+    setViewing(card);
+  }
+
   const drawCard = () => {
     const deck: Pokemon[] = Array.from(Object.values(JSON.parse(localStorage.getItem('pokedex') || '')));
     if (deck) {
@@ -60,11 +68,17 @@ const Inventory = () => {
 
   return (
     <div className={styles.container}>
+      {viewing && <PokemonView card={viewing} exitView={() => setViewing(undefined)}></PokemonView>}
+
       <div className={styles.cardsContainer}>
         <div className={styles.cards}>
           {Object.values(cards).filter((_, idx) => ((pageNumber - 1) * 15) <= idx && idx < (pageNumber * 15)).map((card: Pokemon, idx) => {
             return (
-              <div className={`${styles.card} ${card.is_legendary && styles.legendary} ${card.is_mythical && styles.mythical}`} key={idx}>
+              <div 
+                className={`${styles.card} ${card.is_legendary && styles.legendary} ${card.is_mythical && styles.mythical}`} 
+                onClick={() => viewCard(card)}
+                key={idx}
+              >
                 <ExportedImage 
                   className={styles.image}
                   src={card.sprites.default}
@@ -74,8 +88,12 @@ const Inventory = () => {
                 />
 
                 <div className={styles.level}>
+                  {/* Pokemon can evolve. */}
                   {card.level && <p className={styles.baby} style={{width: card.level / card.evolutions[0].minLevel * 100}}>{card.level + "/" + card.evolutions[0].minLevel}</p>}
+
+                  {/* Pokemon is fully evolved. */}
                   {(!card.evolutions?.length && !card.is_legendary && !card.is_mythical) && <p className={styles.max}>MAX</p>}
+
                   {card.is_mythical && <p className={styles.mythical}>MYTHICAL</p>}
                   {card.is_legendary && <p className={styles.legendary}>LEGENDARY</p>}
                 </div>

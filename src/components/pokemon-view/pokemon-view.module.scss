@@ -1,0 +1,119 @@
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  height: 50%;
+  width: 50%;
+  background-color: rgb(66, 71, 75);
+  border-radius: 8px;
+}
+
+.exitButton {
+  position: absolute !important;
+  left: 3%;
+  top: 4%;
+  width: fit-content;
+  background-color: rgb(180, 45, 45) !important;
+}
+
+.name {
+  margin: 1rem auto 0.5rem;
+  text-transform: uppercase;
+}
+
+.genus {
+  margin: 0 auto 0.5rem;
+  padding: 0.33rem;
+  border-radius: 8px;
+}
+
+.description {
+  margin: 1rem auto;
+  padding: 0.5rem 1rem;
+}
+
+.wrapper {
+  display: flex;
+  position: relative;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 33%;
+  text-align: center;
+}
+
+.leftInfo {
+  margin: 4px auto;
+}
+
+.types {
+  display: flex;
+  justify-content: center;
+}
+
+.type {
+  margin: 0.25rem;
+  padding: 0.5rem;
+  text-transform: capitalize;
+  border-radius: 4px;
+}
+
+.image {
+  margin: auto;
+}
+
+.rightColumn {
+  margin: auto;
+  width: 33%;
+}
+
+.stat {
+  display: flex;
+  width: 100%;
+  margin: 8px auto;
+  height: 1.5rem;
+}
+
+.statName {
+  width: 180px;
+  margin: auto 8px auto 0;
+  text-align: right;
+}
+
+.statBar {
+  display: flex;
+  position: relative;
+  width: 100%;
+  background-color: gray;
+  border-radius: 1rem;
+  height: 1.5rem;
+}
+
+.statValue {
+  position: absolute;
+  border-radius: 1rem;
+  text-align: center;
+  height: 1.5rem;
+  line-height: 1.5rem;
+  text-align: right;
+  padding: 0 0.5rem 0 0;
+  min-width: 35px;
+}
