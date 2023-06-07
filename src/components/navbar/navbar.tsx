@@ -10,7 +10,10 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SettingsIcon from '@mui/icons-material/Settings';
-import NavbarProps from '../../props/navbar';
+
+interface NavbarProps {
+  selectPage: Function
+}
 
 const Navbar = (props: React.PropsWithChildren<NavbarProps>) => {
   const [selected, setSelected] = useState('Home');
