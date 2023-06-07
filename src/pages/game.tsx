@@ -55,8 +55,9 @@ const Game = () => {
         const startingCards = generateStartingCards(deck);
         set(ref(db, 'users/' + auth.currentUser?.uid + '/cards'), startingCards);
 
+        set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/name'), 'Starter Deck');
         startingCards.map((card: Pokemon) => {
-          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/' + card.name), card.name);
+          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/cards/' + card.name), card.name);
         });
       }
     });
