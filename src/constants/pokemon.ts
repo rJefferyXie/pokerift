@@ -23,6 +23,20 @@ const TypeColorSchemes: ColorMap = {
   "water": "#9DB7F5"
 }
 
+interface StatMap {
+  [key: number]: string
+}
+
+const StatStrings: StatMap = {
+  0: "Health",
+  1: "Attack",
+  2: "Defense",
+  3: "Sp. Attack",
+  4: "Sp. Defense",
+  5: "Speed"
+}
+
 export {
-  TypeColorSchemes
+  TypeColorSchemes,
+  StatStrings
 };
