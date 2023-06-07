@@ -115,6 +115,7 @@
 
 .decks {
   display: flex;
+  flex-direction: column;
   position: relative;
   margin-left: 2rem;
   width: calc(25% - 2rem);
@@ -131,4 +132,14 @@
 
 .title {
   margin: 0 auto;
+}
+
+.deck {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem auto;
+  background-color: rgb(51, 54, 56);
+  width: 90%;
+  height: 80px;
 }

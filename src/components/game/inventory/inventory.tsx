@@ -16,11 +16,13 @@ import { auth, db } from '../../../firebase/config';
 import { TypeColorSchemes } from '../../../constants/pokemon';
 
 // Interfaces
+import Deck from '../../../interfaces/Deck';
 import Pokemon from '../../../interfaces/Pokemon';
 import { addRandomCard } from '../../../scripts/generateCards';
 
 const Inventory = () => {
   const [cards, setCards] = useState<Pokemon[]>([]);
+  const [decks, setDecks] = useState<Deck[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
@@ -30,10 +32,18 @@ const Inventory = () => {
     onValue(userCardRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        console.log(data);
         setCards(data);
       } 
     });
+
+    const userDeckRef = ref(db, 'users/' + auth.currentUser.uid + '/decks');
+    onValue(userDeckRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        console.log(data)
+        setDecks(data);
+      }
+    })
   }, []);
 
   const drawCard = () => {
@@ -101,6 +111,12 @@ const Inventory = () => {
 
       <div className={styles.decks}>
         <h2 className={styles.title}>Your Decks</h2>
+
+        {decks.map((deck, idx) => {
+          return <div className={styles.deck} key={idx}>
+            {deck.name}
+          </div>
+        })}
         {/* <button onClick={() => drawCard()}>Add Random Card</button> */}
       </div>
     </div>
