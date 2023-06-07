@@ -22,8 +22,7 @@ const RegionPreview = () => {
                 layout="fill"
                 src={region.image}
                 alt={"An image of " + region.name}
-              >
-              </ExportedImage>
+              />
 
               {region.highlightedPokemon.map((pokemon, idx) => {
                 return (
@@ -35,8 +34,7 @@ const RegionPreview = () => {
                     height={64}
                     alt={pokemon}
                     src={'images/pokemon/' + pokemon + ".png"}
-                  >
-                  </ExportedImage>
+                  />
                 )
               })}
             </button>
