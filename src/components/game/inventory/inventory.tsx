@@ -30,22 +30,15 @@ const Inventory = () => {
     onValue(userCardRef, (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
+        console.log(data);
         setCards(data);
       } 
     });
   }, []);
 
   const drawCard = () => {
-    const kantoDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('kanto') || ''));
-    const johtoDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('johto') || ''));
-    const hoennDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('hoenn') || ''));
-    const sinnohDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('sinnoh') || ''));
-    const unovaDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('unova') || ''));
-    const kalosDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('kalos') || ''));
-    const alolaDeck: Pokemon[] = Object.values(JSON.parse(localStorage.getItem('alola') || ''));
-    const fullDeck = new Set([...kantoDeck, ...johtoDeck, ...hoennDeck, ...sinnohDeck, ...unovaDeck, ...kalosDeck, ...alolaDeck]);
-    if (fullDeck) {
-      const deck: Pokemon[] = Array.from(fullDeck);
+    const deck: Pokemon[] = Array.from(Object.values(JSON.parse(localStorage.getItem('pokedex') || '')));
+    if (deck) {
       const randomCard = addRandomCard(deck);
       update(ref(db, 'users/' + auth.currentUser?.uid + '/cards/' + cards.length), randomCard);
     }
@@ -59,7 +52,7 @@ const Inventory = () => {
     <div className={styles.container}>
       <div className={styles.cardsContainer}>
         <div className={styles.cards}>
-          {cards.filter((_, idx) => ((pageNumber - 1) * 15) <= idx && idx < (pageNumber * 15)).map((card: Pokemon, idx) => {
+          {Object.values(cards).filter((_, idx) => ((pageNumber - 1) * 15) <= idx && idx < (pageNumber * 15)).map((card: Pokemon, idx) => {
             return (
               <div className={`${styles.card} ${card.is_legendary && styles.legendary} ${card.is_mythical && styles.mythical}`} key={idx}>
                 <ExportedImage 
@@ -99,7 +92,7 @@ const Inventory = () => {
 
         <Pagination 
           className={styles.pagination}
-          count={Math.ceil(cards.length / 15)} 
+          count={Math.ceil(Object.values(cards).length / 15)} 
           variant="outlined" 
           color="primary" 
           onChange={handlePageChange}

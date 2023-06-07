@@ -76,27 +76,19 @@ const Hero = () => {
   const FacebookProvider = new FacebookAuthProvider();
 
   useEffect(() => {
-    console.log("auth", auth.currentUser)
-
     if (auth.currentUser) {
       router.push('/game');
+      return;
     }
 
-    const dbRef = ref(db);
-    console.log("ref", dbRef)
-    Object.keys(regions).forEach(async (region) => {
-      const regionDownloaded = localStorage.getItem(region);
-      if (regionDownloaded) {
-        console.log(region + " is downloaded already");
-        return;
-      };
+    const pokedex = localStorage.getItem('pokedex');
+    if (pokedex) return;
 
-      console.log('downloading ' + region)
-      get(child(dbRef, `pokedexes/${region}`)).then((snapshot) => {
-        if (snapshot.exists()) {
-          localStorage.setItem(region, JSON.stringify(snapshot.val()));        
-        }
-      })
+    const dbRef = ref(db);
+    get(child(dbRef, 'pokedex')).then((snapshot) => {
+      if (snapshot.exists()) {
+        localStorage.setItem('pokedex', JSON.stringify(snapshot.val()));        
+      }
     });
   }, [router]);
 

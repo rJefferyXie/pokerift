@@ -32,6 +32,8 @@ interface Pokemon {
   is_baby: boolean,
   is_mythical: boolean,
   is_legendary: boolean,
+  regions: string[],
+  evolves_from_species: boolean,
   types: PokemonTypes[],
   stats: PokemonStats[],
   evolutions: PokemonEvolutions[],
