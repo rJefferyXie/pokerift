@@ -15,6 +15,7 @@ const unusedPokemonData = [
   'game_indices',
   'is_default',
   'held_items',
+  'past_types',
   'location_area_encounters',
   'species',
   'order',
