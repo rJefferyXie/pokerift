@@ -3,53 +3,53 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
-}
 
-.title {
-  margin: auto auto 1rem;
-}
+  .title {
+    margin: auto auto 1rem;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    margin: 1rem auto auto;
+  }
 
-.buttonContainer {
-  display: flex;
-  margin: 1rem auto auto;
-}
+  .playButton {
+    width: 500px;
+    height: 400px;
+    margin: auto;
+    border-radius: 1rem;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .playButton:hover, .playButton:focus {
+    filter: drop-shadow(0px 0px 0.25rem rgb(12, 104, 141));
+  }
 
-.playButton {
-  width: 500px;
-  height: 400px;
-  margin: auto;
-  border-radius: 1rem;
-  position: relative;
-  cursor: pointer;
-}
+  .playButton:nth-child(1) {
+    margin: auto 1rem auto auto;
+  }
+  
+  .playButton:nth-child(2) {
+    margin: auto auto auto 1rem;
+  }
 
-.playButton:hover, .playButton:focus {
-  filter: drop-shadow(0px 0px 0.25rem rgb(12, 104, 141));
-}
-
-.playButton:nth-child(1) {
-  margin: auto 1rem auto auto;
-}
-
-.playButton:nth-child(2) {
-  margin: auto auto auto 1rem;
-}
-
-.buttonImage {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 1rem;
-  filter: brightness(85%);
-}
-
-.buttonText {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.75);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  width: 100%;
-  padding: 1rem;
+  .buttonImage {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    filter: brightness(85%);
+  }
+  
+  .buttonText {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.75);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 100%;
+    padding: 1rem;
+  }
 }

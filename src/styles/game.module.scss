@@ -35,3 +35,14 @@
   background-color: rgba(50, 50, 50, 0.25);
   box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
 }
+
+@media screen and (max-width: 1360px) {
+  .container {
+    flex-direction: column-reverse;
+  }
+
+  .content {
+    margin: 1rem;
+    width: calc(100% - 2rem);
+  }
+}
