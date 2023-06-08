@@ -52,6 +52,8 @@ const generateStartingCards = (deck: Pokemon[]) => {
 
     if (chosenCard.evolutions?.length) {
       chosenCard.level = 1;
+    } else {
+      chosenCard.level = 100;
     }
 
     /* Make sure the player doesn't get another legendary / mythical card.
@@ -73,9 +75,13 @@ const addRandomCard = (deck: Pokemon[]) => {
 
   const randomIndex = Math.floor(Math.random() * pool.length);
   const chosenCard = pool.splice(randomIndex, 1)[0];
+  
   if (chosenCard.evolutions?.length) {
     chosenCard.level = 1;
+  } else {
+    chosenCard.level = 100;
   }
+
   return chosenCard;
 }
 
