@@ -26,7 +26,7 @@ interface Pokemon {
   genus: string,
   height: number,
   weight: number,
-  level?: number,
+  level: number,
   draw_chance: number,
   flavor_text: string,
   is_baby: boolean,
