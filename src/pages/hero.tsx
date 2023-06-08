@@ -9,7 +9,6 @@ import { useRouter } from 'next/router';
 // Components
 import HeroTip from '@/components/ui-general/hero-tip/hero-tip';
 import Alert from '@/components/ui-general/alert/alert';
-import Home from '@/components/game/home/home';
 
 // Animations
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,7 +16,6 @@ import fadeDown from '../animations/fade-down';
 
 // Constants
 import { Severity } from '../constants/severity';
-import { regions } from '../scripts/constants';
 
 // MUI
 import {
@@ -223,7 +221,7 @@ const Hero = () => {
 
                 <Button variant="contained" className={`${styles.registerEmail} button`} onClick={() => createWithEmail()}>
                   <MailIcon></MailIcon>
-                  <p className={styles.loginText}>Create Account With Email</p>
+                  <p className={styles.loginText}>Create Account</p>
                 </Button>
 
                 <div className={styles.buttons}>
@@ -249,7 +247,7 @@ const Hero = () => {
                 exit="exit" 
                 variants={fadeDown}>
 
-                <h2 className={styles.heroHeader}>Log In</h2>
+                <h2 className={styles.heroHeader}>Login</h2>
 
                 <label>Email</label>
                 <input type="email" 
@@ -281,7 +279,7 @@ const Hero = () => {
 
                 <Button variant="contained" className={`${styles.loginEmail} button`} onClick={() => loginWithEmail()}>
                   <MailIcon></MailIcon>
-                  <p className={styles.loginText}>Log In With Email</p>
+                  <p className={styles.loginText}>Login</p>
                 </Button>
 
                 <div className={styles.buttons}>
