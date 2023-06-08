@@ -81,19 +81,44 @@
   .container {
     flex-direction: row;
     width: 100%;
+    position: fixed;
+    bottom: 0;
 
     .logo {
       display: none;
     }
   
     .navLink {
-      width: 15%;
+      width: calc(100% / 5);
+      height: 60px;
       padding: 0;
       margin: 0;
       border-radius: 0rem;
   
       .linkText {
         display: none;
+      }
+
+      .linkWrapper {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transition: all 0.5s ease-in-out;
+      }
+    
+      &.active {
+        background-color: rgb(31, 80, 109);
+      
+        .linkText {
+          margin: auto;
+        }
+    
+        .linkWrapper {
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     }
   }
