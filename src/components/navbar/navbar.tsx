@@ -3,6 +3,10 @@ import styles from './navbar.module.scss';
 
 // React + Next
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+
+// Firebase
+import { auth } from '../../firebase/config';
 
 // Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -11,17 +15,27 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import SettingsIcon from '@mui/icons-material/Settings';
 
+// MUI
+import { Button } from '@mui/material';
+
 interface NavbarProps {
   selectPage: Function
 }
 
 const Navbar = (props: React.PropsWithChildren<NavbarProps>) => {
-  const [selected, setSelected] = useState('Home');
   const { selectPage } = props;
+  const router = useRouter();
+
+  const [selected, setSelected] = useState('Home');
 
   const select = (tab: string) => {
     setSelected(tab);
     selectPage(tab);
+  }
+
+  const logout = () => {
+    auth.signOut();
+    router.push('/hero');
   }
 
   return (
@@ -77,6 +91,13 @@ const Navbar = (props: React.PropsWithChildren<NavbarProps>) => {
           <p className={styles.linkText}>Settings</p>
         </div>
       </button>
+
+      <Button 
+        className={styles.logoutButton}
+        onClick={() => logout()}
+      >
+        Sign Out
+      </Button>
     </div>
   );
 }
