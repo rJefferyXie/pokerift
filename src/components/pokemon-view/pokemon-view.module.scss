@@ -10,161 +10,113 @@
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 1;
-}
 
-.container {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  position: relative;
-  height: 540px;
-  width: 900px;
-  padding: 1rem;
-  background-color: rgb(71, 79, 85);
-  border-radius: 8px;
-}
-
-.exitButton {
-  position: absolute !important;
-  left: 3%;
-  top: 4%;
-  width: fit-content;
-  background-color: rgb(180, 56, 56) !important;
-}
-
-.name {
-  margin: auto auto 0.5rem;
-  text-transform: uppercase;
-}
-
-.highlightedText {
-  margin: 0 auto 0.5rem;
-  padding: 0.33rem 0.5rem;
-  border-radius: 8px;
-  box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
-}
-
-.description {
-  margin: 1rem auto auto;
-  padding: 0.5rem 1rem;
-  width: 80%;
-}
-
-.wrapper {
-  display: flex;
-  position: relative;
-}
-
-.leftColumn {
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  width: 33%;
-  text-align: center;
-}
-
-.leftInfo {
-  margin: 4px auto;
-}
-
-.types {
-  display: flex;
-  justify-content: center;
-}
-
-.type {
-  margin: 0.25rem;
-  padding: 0.5rem;
-  text-transform: capitalize;
-  border-radius: 4px;
-  box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
-}
-
-.image {
-  margin: auto;
-}
-
-.rightColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  width: 33%;
-}
-
-.stat {
-  display: flex;
-  width: 90%;
-  margin: 4px auto;
-  height: 1.5rem;
-}
-
-.statName {
-  width: 180px;
-  margin: auto 8px auto 0;
-  text-align: right;
-}
-
-.statBar {
-  display: flex;
-  position: relative;
-  width: 80%;
-  background-color: gray;
-  border-radius: 1rem;
-  height: 1.5rem;
-  box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
-}
-
-.statValue {
-  position: absolute;
-  border-radius: 1rem;
-  text-align: center;
-  height: 1.5rem;
-  line-height: 1.5rem;
-  text-align: right;
-  padding: 0 0.5rem 0 0;
-  min-width: 35px;
-  max-width: 100%;
-}
-
-.evolutionContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 1rem auto;
-}
-
-.evolution {
-  display: flex;
-  flex-direction: column;
-}
-
-.evolutionInfo {
-  margin: 0.5rem auto 0;
-}
-
-.pagination {
-  margin: 1rem auto 0 !important;
-
-  button {
-    color: rgb(255, 255, 255) !important;
+  .container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    height: 540px;
+    width: 900px;
+    padding: 1rem;
+    background-color: rgb(71, 79, 85);
+    border-radius: 8px;
   }
-}
 
-.evolveButton {
-  color: white !important;
-  background-color: rgb(36, 107, 148) !important;
-  width: fit-content !important;
-  margin: 0.5rem auto !important;
-}
+  .exitButton {
+    position: absolute !important;
+    left: 3%;
+    top: 4%;
+    width: fit-content;
+    background-color: rgb(180, 56, 56) !important;
+  }
+  
+  .name {
+    margin: auto auto 0.5rem;
+    text-transform: uppercase;
+  }
+  
+  .highlightedText {
+    margin: 0 auto 0.5rem;
+    padding: 0.33rem 0.5rem;
+    border-radius: 8px;
+    box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
+  }
+  
+  .description {
+    margin: 1rem auto auto;
+    padding: 0.5rem 1rem;
+    width: 80%;
+  }
+  
+  .wrapper {
+    display: flex;
+    position: relative;
+  }
+  
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 33%;
+    text-align: center;
+  }
+  
+  .leftInfo {
+    margin: 4px auto;
+  }
+  
+  .image {
+    margin: auto;
+  }
+  
+  .rightColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    width: 33%;
+  }
+  
+  .evolutionContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem auto;
+  }
+  
+  .evolution {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .evolutionInfo {
+    margin: 0.5rem auto 0;
+  }
 
-.evolveButtonDisabled {
-  color: white !important;
-  background-color: rgb(36, 107, 148) !important;
-  filter: brightness(60%);
-  width: fit-content !important;
-  margin: 0.5rem auto !important;
-  cursor: not-allowed !important;
+  .evolveButton, .evolveButtonDisabled {
+    color: white !important;
+    width: fit-content !important;
+    margin: 0.5rem auto !important;
+  }
+  
+  .evolveButton {
+    background-color: rgb(36, 107, 148) !important;
+  }
+  
+  .evolveButtonDisabled {
+    background-color: rgb(36, 107, 148) !important;
+    filter: brightness(60%);
+    cursor: not-allowed !important;
+  }
+
+  .pagination {
+    margin: 1rem auto 0 !important;
+  
+    button {
+      color: rgb(255, 255, 255) !important;
+    }
+  }
 }

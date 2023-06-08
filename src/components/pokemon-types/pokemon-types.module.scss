@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: center;
+
+  .type {
+    margin: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    text-transform: capitalize;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
+  }
+}

@@ -4,6 +4,11 @@ import styles from './pokemon-view.module.scss';
 // React + Next.JS
 import { useState, useEffect } from 'react';
 
+// Components
+import PokemonStats from '../pokemon-stats/pokemon-stats';
+import PokemonTypes from '../pokemon-types/pokemon-types';
+import PokemonLevel from '../pokemon-level/pokemon-level';
+
 // Animations
 import { motion, AnimatePresence } from 'framer-motion';
 import fadeDown from '../../animations/fade-down';
@@ -12,7 +17,7 @@ import fadeLeft from '../../animations/fade-left';
 // Interfaces
 import Pokemon from '../../interfaces/Pokemon';
 import ExportedImage from 'next-image-export-optimizer';
-import { TypeColorSchemes, StatStrings } from '../../constants/pokemon';
+import { TypeColorSchemes } from '../../constants/pokemon';
 
 // MUI
 import { Button } from '@mui/material';
@@ -28,11 +33,16 @@ interface PokedexInterface {
   [key: string]: Pokemon
 }
 
+interface EvolutionInterface {
+  evolvesTo: string,
+  minLevel: number
+}
+
 const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
   const { card, exitView } = props;
 
   const [showingEvolutions, setShowingEvolutions] = useState(true);
-  const [evolutionNumber, setEvolutionNumber] = useState(1);
+  const [evolution, setEvolution] = useState<EvolutionInterface>();
   const [pokedex, setPokedex] = useState<PokedexInterface>();
 
   useEffect(() => {
@@ -40,11 +50,15 @@ const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
     if (pokedex) {
       setPokedex(pokedex);
     }
-  }, []);
 
-  const handleEvolutionChange = (_: React.ChangeEvent<unknown>, evolution: number) => {
+    if (card.evolutions?.length) {
+      setEvolution(card.evolutions[0]);
+    }
+  }, [card.evolutions]);
+
+  const handleEvolutionChange = (_: React.ChangeEvent<unknown>, evolutionNumber: number) => {
     setShowingEvolutions(false);
-    setEvolutionNumber(evolution);
+    setEvolution(card.evolutions[evolutionNumber - 1]);
   }
 
   const exit = () => {
@@ -81,19 +95,7 @@ const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
                 <p className={styles.leftInfo}>{"Height " + card.height * 10 + "cm"}</p>
                 <p className={styles.leftInfo}>{"Weight " + card.weight / 10 + "kg"}</p>
                 <p className={styles.leftInfo}>Types</p>
-                <div className={styles.types}>
-                  {card.types.map((type, idx) => {
-                    return (
-                      <div 
-                        key={idx}
-                        className={styles.type}
-                        style={{backgroundColor: TypeColorSchemes[type.type.name]}}
-                      >
-                        {type.type.name}
-                      </div>
-                    )
-                  })}
-                </div>
+                <PokemonTypes card={card}></PokemonTypes>
               </div>
 
               <ExportedImage
@@ -105,21 +107,7 @@ const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
               />
 
               <div className={styles.rightColumn}>
-                {card.stats.map((stat, idx) => {
-                  return (
-                    <div key={idx} className={styles.stat}>
-                      <p className={styles.statName}>
-                        {StatStrings[idx]}
-                      </p>
-
-                      <div className={styles.statBar}>
-                        <p className={styles.statValue} style={{backgroundColor: TypeColorSchemes[card.types[0].type.name], width: stat.base_stat * 0.9}}>
-                          {stat.base_stat}
-                        </p>
-                      </div>
-                    </div>
-                  )
-                })}
+                <PokemonStats card={card}></PokemonStats>
               </div>
             </div>
 
@@ -127,44 +115,43 @@ const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
               {card.flavor_text}
             </p>
 
-            {card.evolutions &&
+            {(card.evolutions && evolution) && 
               <div className={styles.evolutionContainer}>
                 <h3 className={styles.highlightedText} style={{backgroundColor: TypeColorSchemes[card.types[0].type.name]}}>Evolution Tree</h3>
                 
                 <AnimatePresence onExitComplete={() => setShowingEvolutions(true)}>
                   {showingEvolutions && 
                     <motion.div 
-                      key={"evolutionModal" + evolutionNumber} 
+                      key={"evolutionModal" + evolution.evolvesTo} 
                       className={styles.evolution}
                       initial="hidden" 
                       animate="visible"                  
                       exit="exit"
                       variants={fadeLeft}
                     >
-                      {(pokedex && pokedex[card.evolutions[evolutionNumber - 1].evolvesTo]) &&
+                      {(pokedex && pokedex[evolution.evolvesTo]) &&
                         <ExportedImage 
                           className={styles.image}
-                          src={pokedex[card.evolutions[evolutionNumber - 1].evolvesTo].sprites.default} 
-                          alt={"An image of " + card.evolutions[evolutionNumber - 1].evolvesTo}
+                          src={pokedex[evolution.evolvesTo].sprites.default} 
+                          alt={"An image of " + evolution.evolvesTo}
                           width={128}
                           height={128}
                         />
                       }
 
-                      {card.level && 
-                        <p className={styles.evolutionInfo}>
-                          {`Collect ${card.evolutions[evolutionNumber - 1].minLevel - card.level} more ${card.name.toUpperCase()} to evolve this Pokemon to ${card.evolutions[evolutionNumber - 1].evolvesTo.toUpperCase()}!`}
-                        </p>
-                      }
+                      <PokemonLevel card={card}></PokemonLevel>
 
-                      {card.level && 
-                        <Button
-                          className={card.level < card.evolutions[evolutionNumber - 1].minLevel ? styles.evolveButtonDisabled : styles.evolveButton}
-                          variant='contained'
-                        >
-                          EVOLVE POKEMON
-                        </Button>
-                      }
+                      <p className={styles.evolutionInfo}>
+                        {`Collect ${evolution.minLevel - card.level} more ${card.name.toUpperCase()} to evolve this Pokemon to ${evolution.evolvesTo.toUpperCase()}!`}
+                      </p>
+
+                      <Button
+                        className={card.level < evolution.minLevel ? styles.evolveButtonDisabled : styles.evolveButton}
+                        variant='contained'
+                      >
+                        EVOLVE POKEMON
+                      </Button>
+                      
                     </motion.div>
                   }
                 </AnimatePresence>

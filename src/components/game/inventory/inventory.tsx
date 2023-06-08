@@ -9,11 +9,12 @@ import ExportedImage from 'next-image-export-optimizer';
 import { Pagination } from '@mui/material';
 
 // Firebase
-import { ref, update, onValue, push, child } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import { auth, db } from '../../../firebase/config';
 
 // Components
 import PokemonView from '@/components/pokemon-view/pokemon-view';
+import PokemonTypes from '@/components/pokemon-types/pokemon-types';
 
 // Constants
 import { TypeColorSchemes } from '../../../constants/pokemon';
@@ -21,7 +22,7 @@ import { TypeColorSchemes } from '../../../constants/pokemon';
 // Interfaces
 import Deck from '../../../interfaces/Deck';
 import Pokemon from '../../../interfaces/Pokemon';
-import { addRandomCard } from '../../../scripts/generateCards';
+import PokemonLevel from '@/components/pokemon-level/pokemon-level';
 
 const Inventory = () => {
   const [cards, setCards] = useState<Pokemon[]>([]);
@@ -54,14 +55,6 @@ const Inventory = () => {
     setViewing(card);
   }
 
-  const drawCard = () => {
-    const deck: Pokemon[] = Array.from(Object.values(JSON.parse(localStorage.getItem('pokedex') || '')));
-    if (deck) {
-      const randomCard = addRandomCard(deck);
-      update(ref(db, 'users/' + auth.currentUser?.uid + '/cards/' + cards.length), randomCard);
-    }
-  }
-
   const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPageNumber(page);
   }
@@ -87,29 +80,9 @@ const Inventory = () => {
                   height={128}
                 />
 
-                <div className={styles.level}>
-                  {/* Pokemon can evolve. */}
-                  {card.level && <p className={styles.baby} style={{width: card.level / card.evolutions[0].minLevel * 100}}>{card.level + "/" + card.evolutions[0].minLevel}</p>}
+                <PokemonLevel card={card}></PokemonLevel>
+                <PokemonTypes card={card}></PokemonTypes>
 
-                  {/* Pokemon is fully evolved. */}
-                  {(!card.evolutions?.length && !card.is_legendary && !card.is_mythical) && <p className={styles.max}>MAX</p>}
-
-                  {card.is_mythical && <p className={styles.mythical}>MYTHICAL</p>}
-                  {card.is_legendary && <p className={styles.legendary}>LEGENDARY</p>}
-                </div>
-
-                <div className={styles.types}>
-                  {card.types.map((type, idx) => (
-                      <div 
-                        className={styles.type} 
-                        key={idx} 
-                        style={{backgroundColor: TypeColorSchemes[type.type.name]}}
-                      >
-                        {type.type.name}
-                      </div>
-                    )
-                  )}
-                </div>
                 <p className={styles.name}>
                   {card.name}
                 </p>
@@ -135,7 +108,6 @@ const Inventory = () => {
             {deck.name}
           </div>
         })}
-        {/* <button onClick={() => drawCard()}>Add Random Card</button> */}
       </div>
     </div>
   )

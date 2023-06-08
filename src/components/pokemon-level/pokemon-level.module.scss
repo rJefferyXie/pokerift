@@ -1,0 +1,31 @@
+.container {
+  background-color: gray;
+  width: min(75%, 200px);
+  height: 1.3rem;
+  border-radius: 4px;
+  margin: 4px auto;
+  position: relative;
+
+  .baby, .max, .legendary, .mythical {
+    position: absolute;
+    height: 1.3rem;
+    line-height: 1.3rem;
+    text-align: center;
+    border-radius: 4px;
+    background-color: rgb(46, 145, 175);
+  }
+
+  .max {
+    width: 100%;
+  }
+
+  .legendary {
+    width: 100%;
+    background-color: rgb(39, 104, 139);
+  }
+
+  .mythical {
+    width: 100%;
+    background-color: rgb(153, 39, 39);
+  }
+}
