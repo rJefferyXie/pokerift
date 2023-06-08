@@ -3,85 +3,98 @@
 .container {
   display: flex;
   flex-direction: column;
-  background-color: transparent;
   width: 15%;
-  margin-right: 1rem;
   z-index: 1;
   background-color: rgba(50, 50, 50, 0.25);
   box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
-}
 
-.logo {
-  margin: 1rem auto;
-  background-image: linear-gradient(127deg, #5abdcc, #f88989);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -moz-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -moz-text-fill-color: transparent;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: initial;
-  text-shadow: none;
-  text-decoration: none;
-}
-
-.navLink {
-  display: flex;
-  justify-content: center;
-  background-color: rgb(50, 50, 50);
-  border-radius: 1.5rem;
-  margin: 0.5rem auto;
-  width: 80%;
-  padding: 1.5rem;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: background-color 0.5s ease-in-out;
-
-  .linkIcon {
-    margin: auto 0.25rem auto;
-  }
-
-  .linkText {
-    margin: auto auto auto 0;
-  }
-
-  .linkWrapper {
+  .logo {
+    margin: 1rem auto;
+    background-image: linear-gradient(127deg, #5abdcc, #f88989);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
     display: flex;
-    position: absolute;
-    top: 50%;
-    left: 5%;
-    transform: translate(-5%, -50%);
-    transition: all 0.5s ease-in-out;
+    align-items: center;
+    cursor: pointer;
+    color: initial;
+    text-shadow: none;
+    text-decoration: none;
   }
 
-  &.active {
-    background-color: rgb(31, 80, 109);
-
+  .navLink {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(50, 50, 50);
+    border-radius: 1.5rem;
+    margin: 0.5rem auto;
+    width: 80%;
+    padding: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.5s ease-in-out;
+  
     .linkIcon {
-      margin: auto 0.25rem auto auto;
+      margin: auto 0.25rem auto;
     }
   
     .linkText {
       margin: auto auto auto 0;
     }
-
+  
     .linkWrapper {
-      left: 50%;
-      transform: translate(-50%, -50%);
+      display: flex;
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      transform: translate(-5%, -50%);
+      transition: all 0.5s ease-in-out;
     }
+  
+    &.active {
+      background-color: rgb(31, 80, 109);
+  
+      .linkIcon {
+        margin: auto 0.25rem auto auto;
+      }
+    
+      .linkText {
+        margin: auto auto auto 0;
+      }
+  
+      .linkWrapper {
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  .navLink:hover:not(.active), .navLink:active:not(.active), .navLink:focus:not(.active) {
+    background-color: rgb(39, 68, 85);
   }
 }
 
-.navLink:hover:not(.active), .navLink:active:not(.active), .navLink:focus:not(.active) {
-  background-color: rgb(39, 68, 85);
-}
+@media screen and (max-width: 1360px) {
+  .container {
+    flex-direction: row;
+    width: 100%;
 
-.logoutButton {
-  width: fit-content;
-  margin: auto auto 2rem auto !important;
-  color: white !important;
-  background-color: rgb(180, 56, 56) !important;
+    .logo {
+      display: none;
+    }
+  
+    .navLink {
+      width: 15%;
+      padding: 0;
+      margin: 0;
+      border-radius: 0rem;
+  
+      .linkText {
+        display: none;
+      }
+    }
+  }
 }

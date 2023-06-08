@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .logoutButton {
+    width: fit-content;
+    margin: auto !important;
+    color: white !important;
+    background-color: rgb(180, 56, 56) !important;
+  }
+}
