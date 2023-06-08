@@ -194,7 +194,7 @@ const getEvolutionData = async (speciesData) => {
 }
 
 const cleanEvolutionData = (evoData, hasEvolved) => {
-  const evolutionDetails = {}
+  const evolutionDetails = {};
 
   if (!evoData.evolution_details.length) {
     evolutionDetails.minLevel = 40;
@@ -214,6 +214,10 @@ const cleanEvolutionData = (evoData, hasEvolved) => {
   }
 
   evolutionDetails.evolvesTo = evoData.species.name;
+  if (evoData.species.name === 'meowstic') {
+    evolutionDetails.evolvesTo = 'meowstic-male';
+  }
+
   return evolutionDetails;
 }
 
