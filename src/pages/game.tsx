@@ -15,7 +15,9 @@ import {
 import { 
   ref, 
   onValue, 
-  set
+  set,
+  get,
+  child
 } from 'firebase/database';
 
 // Scripts
@@ -40,6 +42,16 @@ const Game = () => {
       router.push('/hero');
       return;
     }
+
+    const pokedex = localStorage.getItem('pokedex');
+    if (pokedex) return;
+
+    const dbRef = ref(db);
+    get(child(dbRef, 'pokedex')).then((snapshot) => {
+      if (snapshot.exists()) {
+        localStorage.setItem('pokedex', JSON.stringify(snapshot.val()));        
+      }
+    });
 
     const userCardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
     onValue(userCardRef, (snapshot) => {
