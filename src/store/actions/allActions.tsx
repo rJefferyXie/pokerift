@@ -1,9 +1,9 @@
 import deckActions from './deckActions';
-import pokemonActions from './pokemonActions';
+import cardActions from './cardActions';
 
 const allActions = {
   deckActions,
-  pokemonActions
+  cardActions
 }
 
 export default allActions;

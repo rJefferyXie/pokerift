@@ -4,6 +4,10 @@ import styles from './pokemon-view.module.scss';
 // React + Next.JS
 import { useState, useEffect } from 'react';
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import cardActions from '../../store/actions/cardActions';
+
 // Components
 import PokemonStats from '../pokemon-stats/pokemon-stats';
 import PokemonTypes from '../pokemon-types/pokemon-types';
@@ -24,11 +28,6 @@ import { Button } from '@mui/material';
 import { ClickAwayListener } from '@mui/material';
 import { Pagination } from '@mui/material';
 
-interface PokemonViewProps {
-  card: Pokemon,
-  exitView: Function
-}
-
 interface PokedexInterface {
   [key: string]: Pokemon
 }
@@ -38,12 +37,18 @@ interface EvolutionInterface {
   minLevel: number
 }
 
-const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
-  const { card, exitView } = props;
-
+const PokemonView = () => {
   const [showingEvolutions, setShowingEvolutions] = useState(true);
   const [evolution, setEvolution] = useState<EvolutionInterface>();
   const [pokedex, setPokedex] = useState<PokedexInterface>();
+
+  const dispatch = useDispatch();
+  
+  const card = useSelector((state: any) => state.cardReducer.card);
+
+  const exit = () => {
+    dispatch(cardActions.viewCard(undefined));
+  }
 
   useEffect(() => {
     const pokedex = JSON.parse(localStorage.getItem('pokedex') || '');
@@ -59,10 +64,6 @@ const PokemonView = (props: React.PropsWithChildren<PokemonViewProps>) => {
   const handleEvolutionChange = (_: React.ChangeEvent<unknown>, evolutionNumber: number) => {
     setShowingEvolutions(false);
     setEvolution(card.evolutions[evolutionNumber - 1]);
-  }
-
-  const exit = () => {
-    exitView();
   }
 
   return (

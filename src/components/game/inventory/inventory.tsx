@@ -15,20 +15,26 @@ import { auth, db } from '../../../firebase/config';
 // Components
 import PokemonView from '@/components/pokemon-view/pokemon-view';
 import PokemonTypes from '@/components/pokemon-types/pokemon-types';
+import PokemonLevel from '@/components/pokemon-level/pokemon-level';
+import ViewingDeck from '@/components/viewing-deck/viewing-deck';
 
-// Constants
-import { TypeColorSchemes } from '../../../constants/pokemon';
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import deckActions from '../../../store/actions/deckActions';
+import cardActions from '../../../store/actions/cardActions';
 
 // Interfaces
 import Deck from '../../../interfaces/Deck';
 import Pokemon from '../../../interfaces/Pokemon';
-import PokemonLevel from '@/components/pokemon-level/pokemon-level';
 
 const Inventory = () => {
   const [cards, setCards] = useState<Pokemon[]>([]);
   const [decks, setDecks] = useState<Deck[]>([]);
-  const [viewing, setViewing] = useState<Pokemon>();
   const [pageNumber, setPageNumber] = useState(1);
+
+  const dispatch = useDispatch();
+  const viewingDeck = useSelector((state: any) => state.deckReducer.deck);
+  const viewingCard = useSelector((state: any) => state.cardReducer.card);
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -51,17 +57,21 @@ const Inventory = () => {
     })
   }, []);
 
-  const viewCard = (card: Pokemon) => {
-    setViewing(card);
-  }
-
   const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setPageNumber(page);
   }
 
+  const viewDeck = (deck: Deck) => {
+    dispatch(deckActions.viewDeck(deck));
+  }
+
+  const viewCard = (card: Pokemon) => {
+    dispatch(cardActions.viewCard(card));
+  }
+
   return (
     <div className={styles.container}>
-      {viewing && <PokemonView card={viewing} exitView={() => setViewing(undefined)}></PokemonView>}
+      {viewingCard && <PokemonView></PokemonView>}
 
       <div className={styles.cardsContainer}>
         <div className={styles.cards}>
@@ -83,6 +93,10 @@ const Inventory = () => {
                 <PokemonLevel card={card}></PokemonLevel>
                 <PokemonTypes card={card}></PokemonTypes>
 
+                {(viewingDeck && Object.values(viewingDeck.cards).includes(card.name)) && 
+                  <p className={styles.amountInDeck}>HI</p>
+                }
+
                 <p className={styles.name}>
                   {card.name}
                 </p>
@@ -103,10 +117,14 @@ const Inventory = () => {
       <div className={styles.decks}>
         <h2 className={styles.title}>Your Decks</h2>
 
-        {decks.map((deck, idx) => {
-          return <div className={styles.deck} key={idx}>
-            {deck.name}
-          </div>
+        {viewingDeck && <ViewingDeck></ViewingDeck>}
+
+        {!viewingDeck && decks.map((deck, idx) => {
+          return (
+            <div className={styles.deck} onClick={() => viewDeck(deck)} key={idx}>
+              {deck.name}
+            </div>
+          )
         })}
       </div>
     </div>

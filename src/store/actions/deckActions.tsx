@@ -6,7 +6,7 @@ import Deck from "../../interfaces/Deck";
 
 const viewDeck = (deck: Deck | undefined) => {
   return {
-    type: DECK.VIEW,
+    type: DECK.VIEW_DECK,
     payload: deck
   }
 }

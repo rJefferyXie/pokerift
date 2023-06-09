@@ -2,18 +2,18 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
 // Types
-import { DECK } from '../types';
+import { CARD } from '../types';
 
 const initialState = {
-  deck: undefined,
+  card: undefined,
 }
 
-const deckReducer = (state = initialState, action: PayloadAction) => {
+const cardReducer = (state = initialState, action: PayloadAction) => {
   switch (action.type) {
-    case DECK.VIEW_DECK: {
+    case CARD.VIEW_CARD: {
       return {
         ...state,
-        deck: action.payload,
+        card: action.payload,
       }
     }
 
@@ -23,4 +23,4 @@ const deckReducer = (state = initialState, action: PayloadAction) => {
   }
 }
 
-export default deckReducer;
+export default cardReducer;

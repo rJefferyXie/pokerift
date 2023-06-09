@@ -3,11 +3,11 @@ import { combineReducers } from '@reduxjs/toolkit';
 
 // Reducers
 import deckReducer from './deckReducer';
-import pokemonReducer from './pokemonReducer';
+import cardReducer from './cardReducer';
 
 const rootReducer = combineReducers({
   deckReducer,
-  pokemonReducer
+  cardReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
