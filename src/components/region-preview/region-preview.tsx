@@ -21,7 +21,7 @@ const RegionPreview = () => {
                 className={styles.wallpaper}
                 layout="fill"
                 src={region.image}
-                alt={"An image of " + region.name}
+                alt={"An image of " + region.name + "."}
               />
 
               {region.highlightedPokemon.map((pokemon, idx) => {
