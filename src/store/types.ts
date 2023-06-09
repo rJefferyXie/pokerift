@@ -1,6 +1,12 @@
-enum COUNTER {
-    INCREMENT = 'INCREMENT',
-    DECREMENT = 'DECREMENT'
+enum DECK {
+  VIEW_DECK = 'VIEW_DECK'
 }
 
-export default COUNTER;
+enum CARD {
+  VIEW_CARD = 'VIEW_CARD'
+}
+
+export {
+  DECK,
+  CARD
+};
