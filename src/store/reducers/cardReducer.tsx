@@ -5,7 +5,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { CARD } from '../types';
 
 const initialState = {
-  card: undefined,
+  currentCard: undefined,
 }
 
 const cardReducer = (state = initialState, action: PayloadAction) => {
@@ -13,7 +13,7 @@ const cardReducer = (state = initialState, action: PayloadAction) => {
     case CARD.VIEW_CARD: {
       return {
         ...state,
-        card: action.payload,
+        currentCard: action.payload,
       }
     }
 

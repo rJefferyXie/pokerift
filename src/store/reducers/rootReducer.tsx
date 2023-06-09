@@ -6,8 +6,8 @@ import deckReducer from './deckReducer';
 import cardReducer from './cardReducer';
 
 const rootReducer = combineReducers({
-  deckReducer,
-  cardReducer
+  deck: deckReducer,
+  card: cardReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

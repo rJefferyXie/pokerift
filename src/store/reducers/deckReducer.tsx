@@ -5,7 +5,7 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { DECK } from '../types';
 
 const initialState = {
-  deck: undefined,
+  currentDeck: undefined,
 }
 
 const deckReducer = (state = initialState, action: PayloadAction) => {
@@ -13,7 +13,7 @@ const deckReducer = (state = initialState, action: PayloadAction) => {
     case DECK.VIEW_DECK: {
       return {
         ...state,
-        deck: action.payload,
+        currentDeck: action.payload,
       }
     }
 

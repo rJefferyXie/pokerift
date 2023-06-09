@@ -18,7 +18,8 @@ import { createWrapper } from "next-redux-wrapper";
 const persistConfig = {
   key: 'root', 
   version: 1,
-  storage: storage
+  storage: storage,
+  blacklist: ['card', 'deck']
 };
 
 // For persisting data when the window/tab is closed
