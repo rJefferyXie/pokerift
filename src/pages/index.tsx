@@ -12,8 +12,6 @@ import {
 const Home = () => {
   const router = useRouter();
 
-
-
   useEffect(() => {
     if (auth.currentUser) {
       router.push('/game');
