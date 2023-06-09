@@ -1,9 +1,6 @@
-// Interfaces
-import Pokemon from "./Pokemon";
-
 interface Deck {
   name: string,
-  cards: Pokemon[],
+  cards: string[],
 }
 
 export default Deck;
