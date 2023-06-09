@@ -1,8 +1,13 @@
+// Redux
 import { combineReducers } from '@reduxjs/toolkit';
-import counterReducer from './counterReducer';
+
+// Reducers
+import deckReducer from './deckReducer';
+import pokemonReducer from './pokemonReducer';
 
 const rootReducer = combineReducers({
-  counterReducer,
+  deckReducer,
+  pokemonReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

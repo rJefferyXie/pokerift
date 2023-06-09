@@ -1,7 +1,9 @@
-import counterActions from './counterActions';
+import deckActions from './deckActions';
+import pokemonActions from './pokemonActions';
 
 const allActions = {
-  counterActions
+  deckActions,
+  pokemonActions
 }
 
 export default allActions;
