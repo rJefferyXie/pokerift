@@ -44,14 +44,14 @@ const Game = () => {
     }
 
     const pokedex = localStorage.getItem('pokedex');
-    if (pokedex) return;
-
-    const dbRef = ref(db);
-    get(child(dbRef, 'pokedex')).then((snapshot) => {
-      if (snapshot.exists()) {
-        localStorage.setItem('pokedex', JSON.stringify(snapshot.val()));        
-      }
-    });
+    if (!pokedex) {
+      const dbRef = ref(db);
+      get(child(dbRef, 'pokedex')).then((snapshot) => {
+        if (snapshot.exists()) {
+          localStorage.setItem('pokedex', JSON.stringify(snapshot.val()));        
+        }
+      });
+    }
 
     const userCardRef = ref(db, 'users/' + auth.currentUser.uid + '/cards');
     onValue(userCardRef, (snapshot) => {
