@@ -1,9 +1,10 @@
 // Types
 import { ALERT } from "../types";
 
-const setShowing = () => {
+const setShowing = (showing: boolean) => {
   return {
-    type: ALERT.SET_SHOWING
+    type: ALERT.SET_SHOWING,
+    payload: showing
   }
 }
 
