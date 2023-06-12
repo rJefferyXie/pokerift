@@ -4,11 +4,15 @@ import styles from '../styles/hero.module.scss';
 // React + Next
 import { useEffect, useState } from 'react';
 import ExportedImage from 'next-image-export-optimizer';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 // Components
 import HeroTip from '@/components/ui-general/hero-tip/hero-tip';
 import Alert from '@/components/ui-general/alert/alert';
+
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import alertActions from '../store/actions/alertActions';
 
 // Animations
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,7 +41,7 @@ import {
 } from '../firebase/config';
 
 // Database
-import { child, ref, set, get } from 'firebase/database';
+import { child, ref, get } from 'firebase/database';
 
 // Authentication
 import { 
@@ -51,12 +55,8 @@ import {
 
 
 const Hero = () => {
-  const router = useRouter();
-
-  // show alert messages
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertContent, setAlertContent] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('');
+  const dispatch = useDispatch();
+  const alert = useSelector((state: any) => state.alert);
 
   // registering or logging in
   const [registering, setRegistering] = useState(true);
@@ -75,7 +75,7 @@ const Hero = () => {
 
   useEffect(() => {
     if (auth.currentUser) {
-      router.push('/game');
+      Router.push('/game');
       return;
     }
 
@@ -88,30 +88,24 @@ const Hero = () => {
         localStorage.setItem('pokedex', JSON.stringify(snapshot.val()));        
       }
     });
-  }, [router]);
+  }, []);
 
   useEffect(() => {
-    if (!alertContent) return;
+    if (!alert.content) return;
 
     // Wait for alert content to change before showing alert
-    setShowAlert(true);
-  }, [alertContent]);
-
-  useEffect(() => {
-    if (showAlert) return;
-
-    // Reset alert content when it is closed
-    setAlertContent('');
-  }, [showAlert]);
+    dispatch(alertActions.setShowing(true));
+  }, [alert.content, dispatch]);
 
   const createWithEmail = () => {
     createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
     .then((result) => {
-      router.push('/game');
+      console.log(result)
+      Router.push('/game');
     })
     .catch((error) => {
-      setAlertContent("Could not create account. " + error.message);
-      setAlertSeverity(Severity.ERROR);
+      dispatch(alertActions.setContent("Could not create account. " + error.message));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
     });
   }
 
@@ -119,11 +113,11 @@ const Hero = () => {
     signInWithEmailAndPassword(auth, loginEmail, loginPassword)
     .then((result) => {
       console.log(result)
-      router.push('/game');
+      Router.push('/game');
     })
     .catch((error) => {
-      setAlertContent("Could not log in. " + error.message);
-      setAlertSeverity(Severity.ERROR);
+      dispatch(alertActions.setContent("Could not log in. " + error.message));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
     });
   }
 
@@ -131,30 +125,24 @@ const Hero = () => {
     signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result)
-      router.push('/game');
+      Router.push('/game');
     })
     .catch((error) => {
-      setAlertContent("Could not log in. " + error.message);
-      setAlertSeverity(Severity.ERROR);
+      dispatch(alertActions.setContent("Could not log in. " + error.message));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
     });
   }
 
   return (
     <div className={styles.container}>
+      <Alert position='bottom'></Alert>
+
       <ExportedImage
         className={styles.heroWallpaper}
         layout="fill"
         src={"images/wallpapers/hero.png"}
         alt={"A picture of Celebi."}>
       </ExportedImage>
-
-      <Alert
-        content={alertContent}
-        severity={alertSeverity}
-        showAlert={showAlert}
-        position='bottom'
-        callback={() => setShowAlert(false)}>
-      </Alert>
 
       <div className={styles.mainRow}>
         <div className={styles.leftColumn}>

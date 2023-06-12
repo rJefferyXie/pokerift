@@ -2,7 +2,7 @@
 import styles from '../styles/game.module.scss';
 
 // React + Next
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { useEffect, useState } from 'react';
 
 // Firebase
@@ -31,15 +31,17 @@ import Inventory from '@/components/game/inventory/inventory';
 import Shop from '@/components/game/shop/shop';
 import Statistics from '@/components/game/statistics/statistics';
 import Settings from '@/components/game/settings/settings';
+import Alert from '@/components/ui-general/alert/alert';
+
+// Interfaces
 import Pokemon from '../interfaces/Pokemon';
 
 const Game = () => {
   const [selected, setSelected] = useState('Home');
-  const router = useRouter();
 
   useEffect(() => {
     if (!auth.currentUser) {
-      router.push('/hero');
+      Router.push('/hero');
       return;
     }
 
@@ -77,19 +79,13 @@ const Game = () => {
     }, {
       onlyOnce: true
     });
-  }, [router]);
+  }, []);
 
   return (
     <div className={styles.container}>
-      <Navbar selectPage={setSelected}></Navbar>
+      <Alert position='bottom'></Alert>
 
-      <Alert
-        content={alertContent}
-        severity={alertSeverity}
-        showAlert={showAlert}
-        position='bottom'
-        callback={() => setShowAlert(false)}>
-      </Alert>
+      <Navbar selectPage={setSelected}></Navbar>
 
       <div className={styles.content} tabIndex={-1}>
         {selected === 'Home' && <Home></Home>}

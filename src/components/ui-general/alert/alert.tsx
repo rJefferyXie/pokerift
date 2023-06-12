@@ -56,7 +56,8 @@ const Alert = (props: React.PropsWithChildren<AlertProps>) => {
     clearTimeout(autoCloseTimeout);
     dispatch(alertActions.setShowing(false));
     dispatch(alertActions.setContent(''));
-    dispatch(alertActions.setSeverity(''));   }
+    dispatch(alertActions.setSeverity(''));   
+  }
 
   return (
     <AnimatePresence>
