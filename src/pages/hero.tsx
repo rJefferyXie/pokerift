@@ -153,7 +153,6 @@ const Hero = () => {
         severity={alertSeverity}
         showAlert={showAlert}
         position='bottom'
-        action={() => console.log("hi")}
         callback={() => setShowAlert(false)}>
       </Alert>
 
