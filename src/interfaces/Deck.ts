@@ -1,6 +1,10 @@
 interface Deck {
   name: string,
-  cards: string[],
+  cards: {
+    [key: string]: {
+      amount: number
+    }
+  },
 }
 
 export default Deck;
