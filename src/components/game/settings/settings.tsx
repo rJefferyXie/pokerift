@@ -2,7 +2,7 @@
 import styles from './settings.module.scss';
 
 // React + Next
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 // Firebase
 import { auth } from '../../../firebase/config';
@@ -11,11 +11,10 @@ import { auth } from '../../../firebase/config';
 import { Button } from '@mui/material';
 
 const Settings = () => {
-  const router = useRouter();
-
+  
   const logout = () => {
     auth.signOut();
-    router.push('/hero');
+    Router.push('/hero');
   }
 
   return (
