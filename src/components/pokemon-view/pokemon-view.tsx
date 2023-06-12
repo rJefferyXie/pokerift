@@ -44,7 +44,7 @@ const PokemonView = () => {
 
   const dispatch = useDispatch();
   
-  const card = useSelector((state: any) => state.cardReducer.card);
+  const card = useSelector((state: any) => state.card.currentCard);
 
   const exit = () => {
     dispatch(cardActions.viewCard(undefined));
@@ -102,7 +102,7 @@ const PokemonView = () => {
               <ExportedImage
                 className={styles.image}
                 src={card.sprites.default}
-                alt={"An image of " + card.name}
+                alt={"An image of " + card.name + "."}
                 width={240}
                 height={240}
               />
@@ -134,7 +134,7 @@ const PokemonView = () => {
                         <ExportedImage 
                           className={styles.image}
                           src={pokedex[evolution.evolvesTo].sprites.default} 
-                          alt={"An image of " + evolution.evolvesTo}
+                          alt={"An image of " + evolution.evolvesTo + "."}
                           width={128}
                           height={128}
                         />
