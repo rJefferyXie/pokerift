@@ -69,15 +69,27 @@ const Game = () => {
 
         set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/name'), 'Starter Deck');
         startingCards.map((card: Pokemon) => {
-          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/cards/' + card.name), card.name);
+          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/cards/' + card.name), {
+            amount: 1
+          });
         });
       }
+    }, {
+      onlyOnce: true
     });
   }, [router]);
 
   return (
     <div className={styles.container}>
       <Navbar selectPage={setSelected}></Navbar>
+
+      <Alert
+        content={alertContent}
+        severity={alertSeverity}
+        showAlert={showAlert}
+        position='bottom'
+        callback={() => setShowAlert(false)}>
+      </Alert>
 
       <div className={styles.content} tabIndex={-1}>
         {selected === 'Home' && <Home></Home>}
