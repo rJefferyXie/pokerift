@@ -9,7 +9,14 @@ enum CARD {
   VIEW_CARD = 'VIEW_CARD'
 }
 
+enum ALERT {
+  SET_SHOWING = 'SET_SHOWING',
+  SET_CONTENT = 'SET_CONTENT',
+  SET_SEVERITY = 'SET_SEVERITY'
+}
+
 export {
   DECK,
-  CARD
+  CARD,
+  ALERT
 };
