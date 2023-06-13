@@ -5,6 +5,11 @@ import styles from '../styles/game.module.scss';
 import Router from 'next/router';
 import { useEffect, useState } from 'react';
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import deckActions from '../store/actions/deckActions';
+import alertActions from '../store/actions/alertActions';
+
 // Firebase
 import { 
   db,
@@ -14,10 +19,11 @@ import {
 // Database
 import { 
   ref, 
-  onValue, 
   set,
   get,
-  child
+  push,
+  child,
+  onValue
 } from 'firebase/database';
 
 // Scripts
@@ -38,6 +44,16 @@ import Pokemon from '../interfaces/Pokemon';
 
 const Game = () => {
   const [selected, setSelected] = useState('Home');
+
+  const dispatch = useDispatch();
+  const alert = useSelector((state: any) => state.alert);
+
+  useEffect(() => {
+    if (!alert.content) return;
+
+    // Wait for alert content to change before showing alert
+    dispatch(alertActions.setShowing(true));
+  }, [alert.content, dispatch]);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -69,9 +85,15 @@ const Game = () => {
         const startingCards = generateStartingCards(deck);
         set(ref(db, 'users/' + auth.currentUser?.uid + '/cards'), startingCards);
 
-        set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/name'), 'Starter Deck');
+        const newDeckKey = push(child(ref(db), 'users/' + auth.currentUser?.uid + '/decks')).key;
+        set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/' + newDeckKey), {
+          id: newDeckKey,
+          name: 'Starter Deck',
+          size: startingCards.length,
+        });
+        
         startingCards.map((card: Pokemon) => {
-          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/0/cards/' + card.name), {
+          set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/' + newDeckKey + '/cards/' + card.name), {
             amount: 1
           });
         });

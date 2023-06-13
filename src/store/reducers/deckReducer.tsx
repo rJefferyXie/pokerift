@@ -36,11 +36,18 @@ const deckReducer = (state = initialState, action: PayloadAction) => {
         // Card is new, set the amount to 1
         updatedCards[cardName] = { amount: 1 };
       }
+
+      let numCardsInDeck = 0;
+      Object.values(updatedCards).forEach((card: any) => {
+        numCardsInDeck += card.amount;
+      });
+
       return {
         ...state,
         currentDeck: {
           ...state.currentDeck,
-          cards: updatedCards
+          cards: updatedCards,
+          size: numCardsInDeck
         }
       }
     }
@@ -61,11 +68,17 @@ const deckReducer = (state = initialState, action: PayloadAction) => {
         }
       }
 
+      let numCardsInDeck = 0;
+      Object.values(updatedCards).forEach((card: any) => {
+        numCardsInDeck += card.amount;
+      });
+
       return {
         ...state,
         currentDeck: {
           ...state.currentDeck,
-          cards: updatedCards
+          cards: updatedCards,
+          size: numCardsInDeck
         }
       }
     }

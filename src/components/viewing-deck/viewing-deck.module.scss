@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 1rem;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgb(51, 54, 56);
+
+  .deckName {
+    margin: 0.5rem auto 0.5rem;
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+  }
+
+  .deckSize {
+    margin: 0 auto 0.5rem;
+  }
+
+  .card {
+    display: flex;
+    border-top: 1px solid rgb(100, 100, 100);
+    padding: 0.25rem 0;
+
+    .image {
+      margin: auto 0.5rem;
+    }
+
+    .name {
+      margin: auto 0;
+      text-transform: capitalize;
+    }
+
+    .amount {
+      color: rgb(93, 230, 123);
+      margin: auto 0.5rem auto auto;
+    }
+  }
+
+  .card:nth-of-type(odd) {
+    background-color: rgb(76, 80, 82);
+  }
+
+  .card:nth-of-type(even) {
+    background-color: rgb(62, 66, 68);
+  }
+
+  .card:nth-last-child(2) {
+    border-bottom: 1px solid rgb(100, 100, 100);
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+
+    .exitButton {
+      margin: 0.5rem;
+      width: fit-content !important;
+      background-color: rgb(180, 56, 56) !important;
+    }
+
+    .saveButton {
+      margin: 0.5rem;
+      width: fit-content !important;
+      background-color: rgb(6, 114, 177) !important;
+    }
+  }
+}

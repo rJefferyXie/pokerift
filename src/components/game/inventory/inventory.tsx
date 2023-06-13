@@ -22,10 +22,14 @@ import ViewingDeck from '@/components/viewing-deck/viewing-deck';
 import { useDispatch, useSelector } from 'react-redux';
 import deckActions from '../../../store/actions/deckActions';
 import cardActions from '../../../store/actions/cardActions';
+import alertActions from '../../../store/actions/alertActions';
 
 // Interfaces
 import Deck from '../../../interfaces/Deck';
 import Pokemon from '../../../interfaces/Pokemon';
+
+// Constants
+import { Severity } from '../../../constants/severity';
 
 const Inventory = () => {
   const [cards, setCards] = useState<Pokemon[]>([]);
@@ -33,8 +37,8 @@ const Inventory = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const dispatch = useDispatch();
-  const viewingDeck = useSelector((state: any) => state.deckReducer.deck);
-  const viewingCard = useSelector((state: any) => state.cardReducer.card);
+  const viewingDeck = useSelector((state: any) => state.deck.currentDeck);
+  const viewingCard = useSelector((state: any) => state.card.currentCard);
 
   useEffect(() => {
     if (!auth.currentUser) return;
@@ -61,8 +65,47 @@ const Inventory = () => {
     setPageNumber(page);
   }
 
+  const addCard = (event: React.MouseEvent<unknown>, card: Pokemon) => {
+    event.stopPropagation();
+
+    // Only 1 copy of each legendary card allowed
+    if (card.is_legendary && viewingDeck.cards[card.name]?.amount === 1) {
+      dispatch(alertActions.setContent("Could not add card to deck. You can only have one copy of each legendary card!"));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
+      return;
+    }
+
+    // Only 1 copy of each mythical Card allowed
+    if (card.is_mythical && viewingDeck.cards[card.name]?.amount === 1) {
+      dispatch(alertActions.setContent("Could not add card to deck. You can only have one copy of each mythical card!"));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
+      return;
+    }
+
+    // Only 3 copies of each normal card allowed
+    if (viewingDeck.cards[card.name]?.amount === 3) {
+      dispatch(alertActions.setContent("Could not add card to deck. You already have three copies of this card in your deck!"));
+      dispatch(alertActions.setSeverity(Severity.ERROR));
+      return;
+    }
+
+    // Cannot have more than 30 cards in a deck
+    if (viewingDeck.size >= 30) {
+      dispatch(alertActions.setContent("Could not add card to deck. You already have 30 cards in your deck!"));
+      dispatch(alertActions.setSeverity(Severity.ERROR));    
+      return;
+    }
+
+    dispatch(deckActions.addCard(card.name));
+  }
+
+  const removeCard = (event: React.MouseEvent<unknown>, card: Pokemon) => {
+    event.stopPropagation();
+    dispatch(deckActions.removeCard(card.name));
+  }
+
   const viewDeck = (deck: Deck) => {
-    dispatch(deckActions.viewDeck(deck));
+    dispatch(deckActions.viewDeck(JSON.parse(JSON.stringify(deck))));
   }
 
   const viewCard = (card: Pokemon) => {
@@ -85,7 +128,7 @@ const Inventory = () => {
                 <ExportedImage 
                   className={styles.image}
                   src={card.sprites.default}
-                  alt={"An image of " + card.name}
+                  alt={"An image of " + card.name + "."}
                   width={128}
                   height={128}
                 />
@@ -93,8 +136,14 @@ const Inventory = () => {
                 <PokemonLevel card={card}></PokemonLevel>
                 <PokemonTypes card={card}></PokemonTypes>
 
-                {(viewingDeck && Object.values(viewingDeck.cards).includes(card.name)) && 
-                  <p className={styles.amountInDeck}>HI</p>
+                {viewingDeck && 
+                  <div>
+                      {
+                        viewingDeck?.cards[card.name]?.amount > 0 &&
+                        <p className={styles.removeFromDeck} onClick={(event) => removeCard(event, card)}>x</p>
+                      }
+                      <p className={styles.addToDeck} onClick={(event) => addCard(event, card)}>+</p>
+                  </div>
                 }
 
                 <p className={styles.name}>
@@ -115,11 +164,13 @@ const Inventory = () => {
       </div>
 
       <div className={styles.decks}>
-        <h2 className={styles.title}>Your Decks</h2>
+        { 
+          viewingDeck ? 
+          <ViewingDeck></ViewingDeck> :
+          <h1 className={styles.title}>Your Decks</h1>
+        }
 
-        {viewingDeck && <ViewingDeck></ViewingDeck>}
-
-        {!viewingDeck && decks.map((deck, idx) => {
+        {!viewingDeck && Object.values(decks).map((deck, idx) => {
           return (
             <div className={styles.deck} onClick={() => viewDeck(deck)} key={idx}>
               {deck.name}

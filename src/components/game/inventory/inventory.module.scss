@@ -20,7 +20,6 @@
   justify-content: center;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
-  position: relative;
   overflow-y: auto;
   margin: auto;
 }
@@ -47,16 +46,44 @@
   background-color: rgb(51, 54, 56);
   box-shadow: 3px 3px 8px rgb(0, 0, 0, 27%);
   text-transform: capitalize;
-  transition: all 0.5s;
+  transition: all 0.25s;
   text-shadow: 1px 1px 1px rgb(0, 0, 0); 
+
+  .addToDeck, .removeFromDeck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 5%;
+    height: 24px;
+    width: 24px;
+    border-radius: 100%;
+    padding: 0.25rem;
+  }
+
+  .removeFromDeck {
+    left: 5%;
+    background-color: rgb(180, 56, 56);
+    text-transform: none;
+  }
+  
+  .addToDeck {
+    right: 5%;
+    background-color: rgba(6, 114, 177, 0.9);
+  }
 }
 
 .card:hover, .card:active, .card:focus {
-  transform: translateY(-3px);
+  background-color: rgb(59, 64, 66);
+
+  .image {
+    filter: brightness(110%);
+  }
 }
 
 .image {
   margin: auto auto 0.5rem;
+  transition: filter 0.25s;
 }
 
 .name {
@@ -93,11 +120,4 @@
   width: 90%;
   height: 80px;
   cursor: pointer;
-}
-
-.amountInDeck {
-  position: absolute;
-  top: 5%;
-  left: 5%;
-  border-radius: 100%;
 }
