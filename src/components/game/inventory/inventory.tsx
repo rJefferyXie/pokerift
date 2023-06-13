@@ -9,7 +9,7 @@ import ExportedImage from 'next-image-export-optimizer';
 import { Pagination } from '@mui/material';
 
 // Firebase
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, push, child } from 'firebase/database';
 import { auth, db } from '../../../firebase/config';
 
 // Components
@@ -104,6 +104,21 @@ const Inventory = () => {
     dispatch(deckActions.removeCard(card.name));
   }
 
+  const createDeck = () => {
+    const newDeckKey = push(child(ref(db), 'users/' + auth.currentUser?.uid + '/decks')).key;
+
+    if (newDeckKey) {
+      const newDeck = {
+        id: newDeckKey,
+        name: 'New Deck',
+        size: 0,
+        cards: {}
+      }
+  
+      viewDeck(newDeck);
+    }
+  }
+
   const viewDeck = (deck: Deck) => {
     dispatch(deckActions.viewDeck(JSON.parse(JSON.stringify(deck))));
   }
@@ -177,6 +192,12 @@ const Inventory = () => {
             </div>
           )
         })}
+
+        {!viewingDeck &&
+          <div className={`${styles.deck} ${styles.newDeck}`} onClick={() => createDeck()}>
+            {"Create New Deck"}
+          </div>
+        }
       </div>
     </div>
   )

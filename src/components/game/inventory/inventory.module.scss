@@ -104,11 +104,11 @@
   position: absolute;
   height: calc(100% - 1rem);
   top: 0.5rem;
-  left: -1rem;
+  left: -2rem;
 }
 
 .title {
-  margin: 0 auto;
+  margin: 0.5rem auto;
 }
 
 .deck {
@@ -117,7 +117,17 @@
   align-items: center;
   margin: 0.5rem auto;
   background-color: rgb(51, 54, 56);
+  border: 1px solid rgb(141, 152, 175);
   width: 90%;
   height: 80px;
   cursor: pointer;
+  border-radius: 8px;
+
+  &.newDeck {
+    border: 1px solid rgb(141, 175, 152);
+  }
+}
+
+.deck:hover, .deck:active, .deck:focus {
+  filter: brightness(110%);
 }
