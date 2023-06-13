@@ -73,7 +73,7 @@ const ViewingDeck = () => {
     }
 
     set(ref(db, 'users/' + auth.currentUser?.uid + '/decks/' + deck.id), {
-      name: 'Starter Deck',
+      name: deck.name,
       size: deck.size,
       cards: deck.cards,
       id: deck.id
